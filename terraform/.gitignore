@@ -1,0 +1,10 @@
+# состояние содержит пароли и secret_key открытым текстом
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# конфиги с реальными значениями
+backend.hcl
+terraform.tfvars
+*.auto.tfvars
+crash.log
