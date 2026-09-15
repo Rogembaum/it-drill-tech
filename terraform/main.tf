@@ -41,17 +41,16 @@ resource "openstack_objectstorage_container_v1" "site" {
   region = var.region
   name   = var.bucket_name
 
-  container_read = var.public_read ? ".r:*" : ""
+  container_read = var.public_read ? ".r:*,.rlistings" : ""
 
   container_write = ""
 
   versioning = var.versioning
 
-  # Метаданные Swift для статического сайта (X-Container-Meta-*).
-  # Новая панель S3 настраивает хостинг на вкладке «Веб-сайт» и может
-  # не читать эти заголовки. Если корень не отдаёт index.html —
-  # включите хостинг в панели руками.
+  # Type → X-Container-Meta-Type: без public панель S3 не включает
+  # вкладку «Веб-сайт». Web-Index/Web-Error — Swift static website.
   metadata = {
+    Type        = var.public_read ? "public" : "private"
     "Web-Index" = var.index_document
     "Web-Error" = var.error_document
   }
