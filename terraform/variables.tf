@@ -31,6 +31,7 @@ variable "auth_url" {
 variable "auth_region" {
   description = "Пул аутентификации. Не обязан совпадать с регионом бакета."
   type        = string
+  default     = "ru-9"
 
   validation {
     condition     = contains(["ru-1", "ru-3", "ru-6", "ru-7", "ru-8", "ru-9", "gis-1"], var.auth_region)
@@ -57,11 +58,13 @@ variable "project_id" {
 variable "project_name" {
   description = "Имя уже существующего проекта. Terraform им не управляет (prevent_destroy + ignore_changes)."
   type        = string
+  default     = "it-drill-tech"
 }
 
 variable "region" {
   description = "Пул, в котором создаётся бакет."
   type        = string
+  default     = "ru-1"
 
   validation {
     condition     = contains(["ru-1", "ru-3", "ru-6", "ru-7", "ru-8", "ru-9", "gis-1"], var.region)
@@ -75,6 +78,7 @@ variable "bucket_name" {
     3–63 символа, начинается и заканчивается буквой или цифрой.
   EOT
   type        = string
+  default     = "it-drill-tech"
 
   validation {
     condition     = can(regex("^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$", var.bucket_name))
@@ -105,6 +109,7 @@ variable "deploy_user_password" {
 variable "site_domain" {
   description = "Публичный домен сайта, без схемы (для подсказок в output)."
   type        = string
+  default     = "it-drill.tech"
 }
 
 # ---------- настройки бакета ----------
