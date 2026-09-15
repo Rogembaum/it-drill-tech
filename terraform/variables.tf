@@ -87,7 +87,7 @@ variable "bucket_name" {
 }
 
 variable "deploy_user_name" {
-  description = "Сервисный пользователь выкладки (роль s3.admin в проекте)."
+  description = "Сервисный пользователь выкладки: member (Swift/OpenStack) и s3.admin (S3-ключи) в проекте."
   type        = string
   sensitive   = true
 }
