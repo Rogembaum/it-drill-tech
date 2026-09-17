@@ -1,2 +1,2 @@
 # it-drill-tech
-https://it-drill.tech
+https://www.it-drill.tech
