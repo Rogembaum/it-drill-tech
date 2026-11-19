@@ -32,6 +32,11 @@ window.SITE = {
     en: "Walkthroughs of real outages. One rule: read the symptom and the command output first, then say out loud three hypotheses and the single command that would rule each one out. Only then open the walkthrough. Hypotheses are ordered by likelihood, and that ordering is exactly what a troubleshooting interview measures."
   },
 
+  labLede: {
+    ru: "Практические стенды: задачи запускаются у вас в терминале на локальном кластере, сам стенд проверяет результат. Здесь условия, разборы, пробные экзамены и учёт прогресса. Выберите направление.",
+    en: "Hands-on labs: tasks run in your own terminal on a local cluster, and the kit grades the result. This page holds the statements, walkthroughs, mock exams and your progress. Pick a track."
+  },
+
   footer: {
     ru: "Опорные книги: Таненбаум («Современные операционные системы», «Архитектура компьютера», «Компьютерные сети»), Kleppmann «Designing Data-Intensive Applications». Подборка материалов: <a href=\"https://github.com/mxssl/sre-interview-prep-guide\">mxssl/sre-interview-prep-guide</a>.",
     en: "Reference books: Tanenbaum (<i>Modern Operating Systems</i>, <i>Structured Computer Organization</i>, <i>Computer Networks</i>), Kleppmann <i>Designing Data-Intensive Applications</i>. Curated material: <a href=\"https://github.com/mxssl/sre-interview-prep-guide\">mxssl/sre-interview-prep-guide</a>."

@@ -1,0 +1,199 @@
+/* ============================================================================
+   Компоненты вкладки «Лабы». Цвета и шрифты — переменные из index.html,
+   кнопки, чипсы и переключатели — классы сайта (.btn, .chip, .views/.vbtn).
+   Все собственные классы начинаются с lx-.
+   ============================================================================ */
+
+/* ---------- каталог ---------- */
+.lx-intro{margin:18px 0 16px; max-width:66ch; color:var(--ink-2); font-size:14.5px}
+.lx-cat{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px}
+.lx-labcard{
+  text-align:left; font:inherit; color:inherit; cursor:pointer; display:flex; flex-direction:column; gap:8px;
+  background:var(--surface); border:1px solid var(--rule); box-shadow:var(--shadow); padding:18px 18px 16px; border-radius:2px;
+}
+.lx-labcard:hover{border-color:var(--accent)}
+.lx-labcard[disabled]{cursor:default; box-shadow:none; background:var(--surface-2); opacity:.75}
+.lx-labcard[disabled]:hover{border-color:var(--rule)}
+.lx-labcard h3{margin:0; font-family:"IBM Plex Serif",Georgia,serif; font-weight:600; font-size:18px; line-height:1.3}
+.lx-labcard p{margin:0; font-size:14px; color:var(--ink-2)}
+.lx-labcard .lx-go{margin-top:auto; font:500 12px/1 "IBM Plex Mono",monospace; color:var(--accent)}
+.chip.lx-soon{opacity:.55; cursor:default}
+.chip.lx-soon:hover{border-color:var(--rule-strong); color:var(--ink-2)}
+
+/* ---------- вкладки лабы ---------- */
+/* нижний отступ съедает padding липкой панели: подчёркивание ложится на её границу */
+.lx-tabs{display:flex; flex-wrap:wrap; gap:0 2px; margin:12px 0 -13px}
+.lx-tab{
+  font:500 13px/1 "IBM Plex Sans",sans-serif; padding:10px 12px 9px; cursor:pointer; background:none; border:0;
+  border-bottom:2px solid transparent; margin-bottom:-1px; color:var(--ink-2);
+}
+.lx-tab:hover{color:var(--accent)}
+.lx-tab[aria-current="page"]{color:var(--ink); border-bottom-color:var(--accent)}
+.lx-tabclock{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--warn)}
+
+/* ---------- каркас ---------- */
+#labroot{display:grid; gap:16px; margin-top:18px}
+.lx-card{background:var(--surface); border:1px solid var(--rule); box-shadow:var(--shadow); padding:18px 20px; display:grid; gap:12px; align-content:start; min-width:0}
+.lx-card p{margin:0}
+.lx-hero p{max-width:70ch; color:var(--ink-2)}
+.lx-grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+.lx-row{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.lx-between{justify-content:space-between}
+.lx-stack{display:grid; gap:10px; align-content:start}
+.lx-h2{margin:0; font-family:"IBM Plex Serif",Georgia,serif; font-weight:600; font-size:21px; line-height:1.3; letter-spacing:-.01em}
+.lx-h3{margin:0; font-family:"IBM Plex Serif",Georgia,serif; font-weight:600; font-size:17px}
+.lx-h4{margin:0; font:500 10.5px/1.4 "IBM Plex Mono",monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.lx-titlebox{display:grid; gap:6px; min-width:0}
+.lx-muted{color:var(--muted)}
+.lx-small{font-size:13px}
+.lx-mono{font-family:"IBM Plex Mono",monospace; font-size:13px}
+.lx-src{font-size:12.5px; color:var(--muted)}
+.lx-src a, .lx-card a{color:var(--accent)}
+.lx-card section{display:grid; gap:8px}
+.lx-list, .lx-crit, .lx-traps{margin:0; padding-left:18px; display:grid; gap:6px; font-size:14px; color:var(--ink-2)}
+.lx-steps{margin:0; padding-left:20px; display:grid; gap:12px}
+.lx-steps li{display:grid; gap:8px}
+.lx-kbd{font:500 11px/1 "IBM Plex Mono",monospace; border:1px solid var(--rule-strong); border-bottom-width:2px; padding:2px 5px; border-radius:2px; background:var(--surface-2)}
+.lx-link{font:inherit; color:var(--accent); background:none; border:0; padding:0; cursor:pointer; text-align:left}
+.lx-link:hover{text-decoration:underline}
+
+.btn.lx-primary{background:var(--accent); border-color:var(--accent); color:#fff; text-decoration:none; display:inline-block}
+:root[data-theme="dark"] .btn.lx-primary{color:#0D1116}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.lx-primary{color:#0D1116}}
+.btn.lx-primary:hover{background:var(--accent-ink); border-color:var(--accent-ink)}
+.btn[disabled]{opacity:.5; cursor:default}
+.btn.on-ok{background:var(--ok-soft); border-color:var(--ok); color:var(--ok)}
+.btn.on-warn{background:var(--warn-soft); border-color:var(--warn); color:var(--warn)}
+.btn.on-bad{background:var(--gap-soft); border-color:var(--gap); color:var(--gap)}
+.lx-seg{margin:0}
+.lx-seg .vbtn{font-size:12px; padding:7px 11px}
+
+.lx-pill{font:500 10.5px/1 "IBM Plex Mono",monospace; letter-spacing:.06em; text-transform:uppercase; padding:4px 7px; border:1px solid var(--rule-strong); color:var(--muted); white-space:nowrap}
+.lx-pill.acc{color:var(--accent); border-color:var(--accent)}
+.lx-pill.ok{color:var(--ok); border-color:var(--ok)}
+.lx-pill.warn{color:var(--warn); border-color:var(--warn)}
+.lx-pill.bad{color:var(--gap); border-color:var(--gap)}
+
+.lx-bar{height:5px; background:var(--rule); overflow:hidden}
+.lx-bar i{display:block; height:100%; background:var(--accent)}
+.lx-bar i.ok{background:var(--ok)}
+
+/* ---------- код ---------- */
+.lx-code{position:relative}
+.lx-code pre{margin:0; padding-right:96px; white-space:pre}
+.lx-copy{
+  position:absolute; top:8px; right:8px; font:500 11px/1 "IBM Plex Mono",monospace; padding:5px 8px; cursor:pointer;
+  background:transparent; color:var(--code-dim); border:1px solid #37434F; border-radius:2px;
+}
+.lx-copy:hover{color:var(--code-ink); border-color:var(--code-ink)}
+.lx-cmd{position:relative; display:flex; align-items:center; background:var(--code-bg); color:var(--code-ink); padding:9px 96px 9px 12px; border-radius:2px; overflow-x:auto; min-width:0}
+.lx-cmd code{background:none; border:0; padding:0; color:inherit; font-size:12.5px; white-space:pre}
+.lx-cmd .lx-copy{top:50%; transform:translateY(-50%)}
+.lx-pr{color:var(--code-dim); user-select:none}
+
+/* ---------- обзор ---------- */
+.lx-facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.lx-fact{background:var(--surface); padding:12px 14px; display:grid; gap:2px}
+.lx-fact b{font:600 20px/1.2 "IBM Plex Mono",monospace; color:var(--ink)}
+.lx-fact span{font-size:12.5px; color:var(--muted)}
+.lx-tablewrap{overflow-x:auto}
+.lx-table{width:100%; border-collapse:collapse; font-size:14px}
+.lx-table th{text-align:left; font:500 10.5px/1.4 "IBM Plex Mono",monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); padding:6px 8px; border-bottom:1px solid var(--rule)}
+.lx-table td{padding:8px; border-bottom:1px solid var(--rule); vertical-align:middle}
+.lx-num{font-family:"IBM Plex Mono",monospace; font-size:13px; text-align:right; white-space:nowrap}
+th.lx-num{text-align:right}
+.lx-score{font:600 40px/1 "IBM Plex Mono",monospace}
+.lx-score.ok{color:var(--ok)} .lx-score.bad{color:var(--gap)}
+.lx-hist{display:grid; gap:6px}
+.lx-h{display:grid; grid-template-columns:110px 48px 1fr; gap:10px; align-items:center; font-size:13px}
+.lx-s{font-family:"IBM Plex Mono",monospace; text-align:right}
+
+/* ---------- задачи ---------- */
+.lx-split{display:grid; grid-template-columns:320px 1fr; gap:16px; align-items:start}
+.lx-listcard{position:sticky; top:calc(var(--barh) + 12px); max-height:calc(100vh - var(--barh) - 24px); grid-template-rows:auto auto 1fr; padding:14px}
+.lx-listcard .chips{gap:4px}
+.lx-listcard .chip{font-size:11.5px; padding:6px 8px}
+.lx-tlist{overflow-y:auto; display:grid; gap:2px; align-content:start; margin:0 -6px; padding:0 6px}
+.lx-titem{display:grid; grid-template-columns:10px 1fr auto; gap:10px; align-items:start; text-align:left; font:inherit; color:inherit; background:none; border:1px solid transparent; padding:8px; cursor:pointer; border-radius:2px}
+.lx-titem:hover{background:var(--surface-2)}
+.lx-titem[aria-current="true"]{background:var(--accent-soft); border-color:var(--accent)}
+.lx-tt{font-size:13.5px; line-height:1.35; color:var(--ink)}
+.lx-tt small{display:block; margin-top:3px; font:400 11px/1.3 "IBM Plex Mono",monospace; color:var(--muted)}
+.lx-id{font:500 11px/1.6 "IBM Plex Mono",monospace; color:var(--muted)}
+.lx-dot{width:8px; height:8px; margin-top:6px; border-radius:50%; border:1px solid var(--rule-strong)}
+.lx-dot.ok{background:var(--ok); border-color:var(--ok)}
+.lx-dot.part{background:var(--warn); border-color:var(--warn)}
+.lx-dot.fail{background:var(--gap); border-color:var(--gap)}
+.lx-lab{gap:16px}
+.lx-host{font:500 12px/1.5 "IBM Plex Mono",monospace; color:var(--ink-2); background:var(--surface-2); border-left:3px solid var(--warn); padding:7px 10px}
+.lx-host .k{color:var(--muted)}
+.lx-prose{font-size:14.5px; color:var(--ink); max-width:74ch}
+.lx-prose p{margin:0 0 8px}
+.lx-prose ol, .lx-prose ul{margin:0 0 8px; padding-left:20px}
+.lx-prose li{margin:3px 0}
+.lx-prose.lx-ru{color:var(--ink-2); border-left:3px solid var(--rule-strong); padding-left:12px}
+.lx-timer{display:flex; flex-wrap:wrap; gap:10px; align-items:center; border:1px solid var(--rule); background:var(--surface-2); padding:10px 12px}
+.lx-clock{font:600 22px/1 "IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+.lx-clock.over{color:var(--gap)}
+.lx-result{display:grid; gap:10px}
+.lx-input{
+  flex:1 1 240px; min-width:0; font:400 14px/1.3 "IBM Plex Sans",sans-serif; padding:9px 11px;
+  border:1px solid var(--rule-strong); background:var(--surface); color:var(--ink); border-radius:2px;
+}
+.lx-input.lx-mono{font-family:"IBM Plex Mono",monospace}
+.lx-paste, .lx-try{width:100%; min-height:110px; resize:vertical; font:400 13px/1.5 "IBM Plex Mono",monospace}
+.lx-try{min-height:70px}
+.lx-fold{border:1px solid var(--rule)}
+.lx-fold summary{cursor:pointer; padding:10px 12px; font-weight:600; font-size:14px; display:flex; gap:8px; align-items:center; background:var(--surface-2)}
+.lx-fold[open] summary{border-bottom:1px solid var(--rule)}
+.lx-inner{padding:12px 14px; display:grid; gap:14px}
+.lx-solstep{display:grid; gap:8px}
+.lx-solstep h5{margin:0; font-size:14px}
+.lx-solstep p{font-size:14px; color:var(--ink-2)}
+.lx-traps li::marker{color:var(--gap)}
+.lx-docl{display:flex; flex-wrap:wrap; gap:6px 16px; font-size:14px}
+.lx-fb{display:grid; gap:6px; padding:12px 14px; border-left:3px solid var(--accent); background:var(--accent-soft); font-size:14px}
+.lx-fb.ok{border-color:var(--ok); background:var(--ok-soft)}
+.lx-fb.bad{border-color:var(--gap); background:var(--gap-soft)}
+
+/* ---------- экзамен ---------- */
+.lx-exgrid{display:grid; grid-template-columns:1fr 260px; gap:16px; align-items:start}
+.lx-side{display:grid; gap:12px; position:sticky; top:calc(var(--barh) + 12px)}
+.lx-bigclock{font:600 38px/1 "IBM Plex Mono",monospace; font-variant-numeric:tabular-nums}
+.lx-bigclock.low{color:var(--gap)}
+.lx-nav{display:grid; grid-template-columns:repeat(6,1fr); gap:4px}
+.lx-nav button{font:500 12px/1 "IBM Plex Mono",monospace; padding:8px 0; cursor:pointer; background:var(--surface); color:var(--ink-2); border:1px solid var(--rule-strong); border-radius:2px; position:relative}
+.lx-nav button.cur{border-color:var(--accent); color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent)}
+.lx-nav button.ok{background:var(--ok-soft); color:var(--ok)}
+.lx-nav button.part{background:var(--warn-soft); color:var(--warn)}
+.lx-nav button.skip{background:var(--gap-soft); color:var(--gap)}
+.lx-nav button.flag::after{content:""; position:absolute; top:2px; right:2px; width:6px; height:6px; background:var(--warn); border-radius:50%}
+.lx-confirm{display:grid; gap:8px; padding:10px; border:1px solid var(--warn); background:var(--warn-soft)}
+
+/* ---------- вопросы и скорость ---------- */
+.lx-qcard{gap:14px}
+.lx-qtext{font-family:"IBM Plex Serif",Georgia,serif; font-weight:500; font-size:18px; line-height:1.45}
+.lx-opts{display:grid; gap:6px}
+.lx-opt{display:flex; gap:10px; align-items:flex-start; text-align:left; font:inherit; font-size:14.5px; color:var(--ink); background:var(--surface); border:1px solid var(--rule-strong); padding:10px 12px; cursor:pointer; border-radius:2px}
+.lx-opt:hover:not([disabled]){border-color:var(--accent)}
+.lx-opt[aria-checked="true"]{border-color:var(--accent); background:var(--accent-soft)}
+.lx-opt .k{font:500 12px/1.6 "IBM Plex Mono",monospace; color:var(--muted)}
+.lx-opt.right{border-color:var(--ok); background:var(--ok-soft)}
+.lx-opt.wrong{border-color:var(--gap); background:var(--gap-soft)}
+.lx-opt[disabled]{cursor:default}
+
+/* ---------- день экзамена ---------- */
+.lx-dmap{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px}
+.lx-dmap > div{display:grid; gap:8px; align-content:start}
+
+.lx-toast{position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:50; background:var(--ink); color:var(--bg); padding:9px 14px; font:500 13px/1.3 "IBM Plex Mono",monospace; border-radius:2px}
+
+@media (max-width:900px){
+  .lx-split, .lx-exgrid, .lx-grid2{grid-template-columns:1fr}
+  .lx-listcard, .lx-side{position:static; max-height:none}
+  .lx-tlist{max-height:320px}
+}
+@media (max-width:600px){
+  .lx-hide-sm{display:none}
+  .lx-card{padding:14px}
+}
