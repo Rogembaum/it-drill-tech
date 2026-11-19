@@ -23,5 +23,15 @@ window.LAB_CATALOG = [
   { id: "csi",      tags: ["CSI"],       soon: true, title: { ru: "Хранилище и CSI-драйверы", en: "Storage and CSI drivers" } },
   { id: "cni",      tags: ["CNI"],       soon: true, title: { ru: "Сеть кластера и CNI",      en: "Cluster networking and CNI" } },
   { id: "argocd",   tags: ["Argo CD"],   soon: true, title: { ru: "GitOps на Argo CD",        en: "GitOps with Argo CD" } },
-  { id: "aidevops", tags: ["AI DevOps"], soon: true, title: { ru: "AI DevOps: агенты, RAG, evals", en: "AI DevOps: agents, RAG, evals" } }
+  {
+    id: "aidevops",
+    tags: ["AI DevOps"],
+    title: { ru: "AI DevOps: агенты, RAG, evals", en: "AI DevOps: agents, RAG, evals" },
+    lede: {
+      ru: "Задачи с автопроверкой на CPU и kind: сервис агента и tool calling, MCP, Kubernetes, CI-гейты, безопасность, RAG, evals, автоматизация и LLM serving. Практикумы с чек-листами, вопросы, экзамен, сертификации и портфолио.",
+      en: "Auto-graded tasks on CPU and kind: agent service and tool calling, MCP, Kubernetes, CI gates, security, RAG, evals, automation and LLM serving. Checklist workshops, questions, an exam, certifications and portfolio tracks."
+    },
+    stats: { ru: "44 задачи · 112 вопросов · 22 практикума", en: "44 tasks · 112 questions · 22 workshops" },
+    store: "it-drill-lab-aidevops-v1"
+  }
 ];

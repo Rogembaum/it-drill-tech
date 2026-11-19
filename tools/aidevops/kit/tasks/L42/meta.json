@@ -1,0 +1,11 @@
+{
+  "id": "L42",
+  "domain": "11 models",
+  "title": "Serving SLO: TTFT, TPOT и p95 по стриму токенов",
+  "prereq": "",
+  "files": [
+    "slo.py"
+  ],
+  "goal": "Дашборд LLM-сервиса показывает «среднее время ответа 0.5 с», а пользователи жалуются на долгое ожидание первого слова. Посчитай метрики по событиям стрима: TTFT — до первого токена, TPOT — между токенами, p95 по nearest-rank вместо среднего, error rate отдельно от latency. Верни список нарушенных SLO.",
+  "evidence": "stream_metrics(events) даёт ttft/tpot/tokens/e2e; p95(values) — nearest-rank; evaluate(requests, slo) исключает ошибки из latency, считает error_rate и перечисляет violations; один медленный хвост виден в p95, хотя среднее в норме."
+}

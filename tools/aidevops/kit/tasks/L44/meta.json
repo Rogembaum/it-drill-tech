@@ -1,0 +1,11 @@
+{
+  "id": "L44",
+  "domain": "11 models",
+  "title": "Веса модели: safetensors, pinned revision и sha256",
+  "prereq": "",
+  "files": [
+    "loader.py"
+  ],
+  "goal": "Init-контейнер скачивает модель по имени и ветке main и проверяет только, что файлы на месте. Так в кластер попадает любой коммит из репозитория модели, включая pickle-файлы, которые исполняют код при загрузке. Перед стартом inference проверь манифест: revision — полный commit sha, только безопасные форматы, пути внутри каталога модели, sha256 каждого файла совпадает.",
+  "evidence": "verify(manifest, root) возвращает проверенные пути; ValueError для revision не-sha и несовпадения sha256; PermissionError для .bin/.pt/.pkl/.ckpt и путей с ../; FileNotFoundError для отсутствующего файла."
+}

@@ -1,0 +1,11 @@
+{
+  "id": "L43",
+  "domain": "11 models",
+  "title": "Автомасштабирование vLLM по очереди запросов (KEDA)",
+  "prereq": "K09",
+  "files": [
+    "scaledobject.yaml"
+  ],
+  "goal": "vLLM масштабируется по CPU: под нагрузкой GPU занят на 100%, а CPU почти простаивает, очередь растёт и реплики не добавляются; ночью сервис уходит в ноль, и первый утренний запрос ждёт загрузки весов несколько минут. Переведи ScaledObject на метрику очереди vllm:num_requests_waiting из Prometheus, оставь одну тёплую реплику, ограничь максимум квотой GPU и замедли scale-down.",
+  "evidence": "KEDA ScaledObject keda.sh/v1alpha1 на Deployment vllm; trigger prometheus с sum(vllm:num_requests_waiting...), без cpu/memory; minReplicaCount >= 1; maxReplicaCount <= 4; HPA behavior scaleDown.stabilizationWindowSeconds >= 300. Live-проверка требует KEDA, Prometheus и vLLM."
+}
