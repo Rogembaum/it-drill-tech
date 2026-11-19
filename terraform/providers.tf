@@ -12,7 +12,7 @@ provider "openstack" {
   domain_name         = var.selectel_domain_name
   tenant_id           = selectel_vpc_project_v2.main.id
   user_name           = selectel_iam_serviceuser_v1.deploy.name
-  password            = selectel_iam_serviceuser_v1.deploy.password
+  password            = var.deploy_user_password
   user_domain_name    = var.selectel_domain_name
   project_domain_name = var.selectel_domain_name
 }
