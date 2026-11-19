@@ -34,6 +34,8 @@
 /* ---------- каркас ---------- */
 #labroot{display:grid; gap:16px; margin-top:18px}
 .lx-card{background:var(--surface); border:1px solid var(--rule); box-shadow:var(--shadow); padding:18px 20px; display:grid; gap:12px; align-content:start; min-width:0}
+.lx-card, .lx-card section, .lx-steps, .lx-steps li, .lx-inner, .lx-solstep, .lx-fb, .lx-opts{grid-template-columns:minmax(0,1fr)}
+.lx-card :not(pre) > code{overflow-wrap:anywhere}
 .lx-card p{margin:0}
 .lx-hero p{max-width:70ch; color:var(--ink-2)}
 .lx-grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px}
@@ -57,6 +59,7 @@
 .lx-link{font:inherit; color:var(--accent); background:none; border:0; padding:0; cursor:pointer; text-align:left}
 .lx-link:hover{text-decoration:underline}
 
+a.btn{text-decoration:none; display:inline-block}
 .btn.lx-primary{background:var(--accent); border-color:var(--accent); color:#fff; text-decoration:none; display:inline-block}
 :root[data-theme="dark"] .btn.lx-primary{color:#0D1116}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.lx-primary{color:#0D1116}}

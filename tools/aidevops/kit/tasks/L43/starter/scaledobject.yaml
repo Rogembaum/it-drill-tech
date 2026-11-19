@@ -1,0 +1,15 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: vllm
+  namespace: ai-lab
+spec:
+  scaleTargetRef:
+    name: vllm
+  minReplicaCount: 0
+  maxReplicaCount: 20
+  triggers:
+    - type: cpu
+      metricType: Utilization
+      metadata:
+        value: "70"
