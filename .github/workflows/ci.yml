@@ -30,7 +30,7 @@ jobs:
         uses: gitleaks/gitleaks-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_ENABLE_COMMENTS: 'false'
+          GITLEAKS_ENABLE_COMMENTS: "false"
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
       - name: Scan Terraform configuration
@@ -102,11 +102,3 @@ jobs:
       # Имена файлов без хешей: no-cache заставляет браузер сверять ETag и сразу видеть новую версию.
       - name: Upload to S3
         run: aws s3 sync dist/ "s3://$BUCKET/" --delete --no-progress --cache-control "no-cache"
-
-      - name: Show S3 TLS chain
-        if: failure()
-        run: |
-          aws --version
-          host="${AWS_ENDPOINT_URL#https://}"
-          openssl s_client -connect "$host:443" -servername "$host" -showcerts </dev/null 2>&1 \
-            | grep -E '^ *[0-9]+ s:|^ *i:|Verify return code'
