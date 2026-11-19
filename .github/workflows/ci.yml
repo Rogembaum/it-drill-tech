@@ -68,3 +68,35 @@ jobs:
       - name: Validate Terraform configuration
         run: terraform validate -no-color
         working-directory: terraform
+
+  cd:
+    name: cd
+    needs: ci
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: it-drill
+      url: https://www.it-drill.tech/
+    concurrency:
+      group: cd-it-drill
+      cancel-in-progress: false
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
+      AWS_DEFAULT_REGION: ru-1
+      AWS_ENDPOINT_URL: https://s3.ru-1.storage.selcloud.ru
+      # Selectel не принимает CRC-контрольные суммы, которые aws-cli 2.23+ шлёт по умолчанию.
+      AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+      AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
+      BUCKET: it-drill-tech
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Build dist
+        run: python3 tools/build-dist.py
+
+      # Имена файлов без хешей: no-cache заставляет браузер сверять ETag и сразу видеть новую версию.
+      - name: Upload to S3
+        run: aws s3 sync dist/ "s3://$BUCKET/" --delete --no-progress --cache-control "no-cache"
