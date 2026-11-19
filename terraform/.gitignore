@@ -1,10 +1,19 @@
-# состояние содержит пароли и secret_key открытым текстом
+# State may contain passwords and secret keys in plain text.
 *.tfstate
 *.tfstate.*
 .terraform/
 
-# конфиги с реальными значениями
+# Local variable files may contain credentials.
+*.tfvars
+*.tfvars.json
 backend.hcl
-terraform.tfvars
-*.auto.tfvars
+
+# Local Terraform overrides and crash logs.
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 crash.log
+crash.*.log
+
+# Keep .terraform.lock.hcl tracked to pin provider versions.
