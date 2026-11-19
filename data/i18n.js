@@ -59,6 +59,13 @@ window.I18N = {
     paneFix:       "Что делаем",
     paneTrap:      "Ловушка, в которую тут попадают",
 
+    /* лабы */
+    viewLabs:      "Лабы",
+    labAll:        "Все",
+    labSoon:       "скоро",
+    labOpen:       "Открыть лабу",
+    labLoadFailed: "Не удалось загрузить лабу. Обновите страницу.",
+
     /* перевод */
     untranslated:      "RU",
     untranslatedTitle: "Перевод на английский пока не готов — показан оригинал",
@@ -69,6 +76,7 @@ window.I18N = {
     /* сообщения */
     confirmReset:  "Сбросить все оценки? Это нельзя отменить.",
     importedN:     "Перенесено оценок: {n}",
+    importedLabs:  "Прогресс лаб: {n}. Страница перезагрузится.",
     importFailed:  "Не удалось прочитать файл: {err}",
     importNoMarks: "нет поля marks"
   },
@@ -115,6 +123,13 @@ window.I18N = {
     paneFix:       "What we do",
     paneTrap:      "The trap people fall into here",
 
+    viewLabs:      "Labs",
+    labAll:        "All",
+    labSoon:       "soon",
+    labOpen:       "Open the lab",
+    labLoadFailed: "Could not load the lab. Reload the page.",
+    labLangNote:   "The labs interface is in Russian for now; task statements are in English.",
+
     untranslated:      "RU",
     untranslatedTitle: "Not translated yet — showing the Russian original",
     langNoteAll:       "This section is not translated yet: all {total} entries are shown in Russian.",
@@ -122,6 +137,7 @@ window.I18N = {
 
     confirmReset:  "Reset all marks? This cannot be undone.",
     importedN:     "Marks imported: {n}",
+    importedLabs:  "Lab progress: {n}. The page will reload.",
     importFailed:  "Could not read the file: {err}",
     importNoMarks: "no marks field"
   }

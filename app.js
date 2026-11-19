@@ -1,6 +1,7 @@
 /* ============================================================================
    Логика тренажёра. Обычно этот файл трогать не нужно:
    вопросы лежат в data/questions.js, кейсы в data/cases.js,
+   лабы в labs/ (каталог labs/catalog.js, каркас labs/kit.js),
    темы и уровни в data/config.js, строки интерфейса в data/i18n.js,
    переводы содержания в data/en/.
    ============================================================================ */
@@ -12,6 +13,8 @@ const TOPICS    = window.TOPICS;
 const PLAN      = window.PLAN;
 const QUESTIONS = window.QUESTIONS;
 const CASES     = window.CASES;
+const CATALOG   = window.LAB_CATALOG || [];
+const LabKit    = window.LabKit;
 const LANGS     = window.LANGS || [["ru","RU","ru"]];
 const I18N      = window.I18N || { ru: {} };
 
@@ -195,6 +198,8 @@ function renderChrome(){
   el("vC").childNodes[0].nodeValue = t("viewCases") + " ";
   el("nQ").textContent = QUESTIONS.length;
   el("nC").textContent = CASES.length;
+  el("vL").childNodes[0].nodeValue = t("viewLabs") + " ";
+  el("nL").textContent = CATALOG.filter(function(x){ return !x.soon; }).length;
 
   el("q").placeholder = t("searchPlaceholder");
   el("q").setAttribute("aria-label", t("searchPlaceholder"));
@@ -246,6 +251,7 @@ function drawLangNote(){
   const box = el("langNote");
   if(!box) return;
   if(lang === "ru"){ box.hidden = true; box.textContent = ""; return; }
+  if(view === "l"){ box.textContent = t("labLangNote"); box.hidden = false; return; }
   const isQ = view === "q";
   const list = isQ ? QUESTIONS : CASES;
   const done = isQ ? covered(QUESTIONS, TRQ) : covered(CASES, TRC);
@@ -359,6 +365,114 @@ function caseHTML(c){
   + '</div>';
 }
 
+/* ---------------- лабы ----------------
+   Каталог — labs/catalog.js, каркас модулей — labs/kit.js. Модуль лабы
+   (labs/<id>/data.js + lab.js) подгружается при первом открытии.
+   Адрес: #labs, #labs/<id>, #labs/<id>/<раздел>. */
+let labTag = null, labId = null, labSec = null;
+const LAB_BY = {};
+CATALOG.forEach(function(x){ LAB_BY[x.id] = x; });
+
+function labTags(){
+  const tags = [];
+  CATALOG.forEach(function(x){
+    x.tags.forEach(function(g){
+      let r = tags.filter(function(y){ return y.tag === g; })[0];
+      if(!r){ r = {tag: g, ready: 0}; tags.push(r); }
+      if(!x.soon) r.ready++;
+    });
+  });
+  return tags;
+}
+
+function loadScript(src){
+  return new Promise(function(ok, fail){
+    const s = document.createElement("script");
+    s.src = src; s.onload = ok;
+    s.onerror = function(){ fail(new Error(src)); };
+    document.head.appendChild(s);
+  });
+}
+function ensureLab(id){
+  if(LabKit.get(id)) return Promise.resolve(LabKit.get(id));
+  const base = "labs/" + id + "/";
+  return loadScript(base + "data.js")
+    .then(function(){ return loadScript(base + "lab.js"); })
+    .then(function(){ return LabKit.get(id); });
+}
+
+function writeHash(){
+  const h = view !== "l" ? "" : "#labs" + (labId ? "/" + labId + (labSec ? "/" + labSec : "") : "");
+  if(location.hash === h || (!h && !location.hash)) return;
+  try { history.replaceState(null, "", h || location.pathname + location.search); } catch(e){}
+}
+
+function drawLabTags(){
+  const all = '<button class="chip" data-lt="" aria-pressed="'+(!labTag)+'">'+esc(t("labAll"))+'</button>';
+  el("labtags").innerHTML = all + labTags().map(function(g){
+    return '<button class="chip'+(g.ready ? "" : " lx-soon")+'" data-lt="'+esc(g.tag)+'" aria-pressed="'+(labTag === g.tag)+'"'
+         + (g.ready ? "" : ' disabled title="'+esc(t("labSoon"))+'"')+'>'
+         + esc(g.tag)+(g.ready ? "" : '<span class="n">'+esc(t("labSoon"))+'</span>')+'</button>';
+  }).join("");
+}
+
+function drawCatalog(){
+  const list = CATALOG.filter(function(x){ return !labTag || x.tags.indexOf(labTag) !== -1; });
+  el("labnav").innerHTML = "";
+  el("labnav").hidden = true;
+  el("labroot").innerHTML = '<p class="lx-intro">'+(loc((window.SITE || {}).labLede) || "")+'</p>'
+    + '<div class="lx-cat">' + list.map(function(x){
+        return '<button class="lx-labcard" data-lab="'+x.id+'"'+(x.soon ? " disabled" : "")+'>'
+          + '<div class="lx-row">'+x.tags.map(function(g){ return '<span class="lx-pill acc">'+esc(g)+'</span>'; }).join("")
+          +   (x.soon ? '<span class="lx-pill">'+esc(t("labSoon"))+'</span>' : '')+'</div>'
+          + '<h3>'+esc(loc(x.title))+'</h3>'
+          + (x.lede ? '<p>'+esc(loc(x.lede))+'</p>' : '')
+          + (x.stats ? '<p class="lx-muted lx-small">'+esc(loc(x.stats))+'</p>' : '')
+          + (x.soon ? '' : '<span class="lx-go">'+esc(t("labOpen"))+' →</span>')
+          + '</button>';
+      }).join("") + '</div>';
+}
+
+function drawLab(){
+  const mod = LabKit.get(labId);
+  if(!mod) return;
+  const keys = mod.sections.map(function(s){ return s[0]; });
+  if(keys.indexOf(labSec) === -1) labSec = keys[0];
+  el("labnav").hidden = false;
+  el("labnav").innerHTML = mod.sections.map(function(s){
+    return '<button class="lx-tab" data-sec="'+s[0]+'"'+(s[0] === labSec ? ' aria-current="page"' : '')+'>'
+         + esc(s[1]) + (mod.tab ? mod.tab(s[0]) : "") + '</button>';
+  }).join("");
+  el("labroot").innerHTML = mod.render(labSec);
+  writeHash();
+  syncBarOffsetSoon();
+}
+
+function drawLabs(){
+  drawLabTags();
+  if(labId && LabKit.get(labId)) drawLab(); else drawCatalog();
+  writeHash();
+  syncBarOffsetSoon();
+}
+
+function openLab(id, sec){
+  const x = LAB_BY[id];
+  if(!x || x.soon){ labId = null; drawLabs(); return; }
+  labId = id;
+  if(!labTag || x.tags.indexOf(labTag) === -1) labTag = x.tags[0];
+  drawLabTags();
+  ensureLab(id).then(function(mod){
+    if(labId !== id) return;
+    labSec = mod.initial ? mod.initial(sec) : sec;
+    drawLab();
+  }, function(){
+    el("labroot").innerHTML = '<p class="empty">'+esc(t("labLoadFailed"))+'</p>';
+  });
+}
+
+LabKit.go = function(sec){ labSec = sec; drawLab(); window.scrollTo({top: 0}); };
+LabKit.refresh = drawLab;
+
 /* ---------------- отметки и прогресс ---------------- */
 function paintMarks(node, item){
   node.querySelectorAll(".mark").forEach(function(b){
@@ -432,6 +546,7 @@ function renderAll(){
   renderChrome();
   renderQuestions();
   renderCases();
+  if(view === "l") drawLabs();
   paintAllMarks();
   drawProgress();
   drawLangNote();
@@ -539,21 +654,56 @@ el("caselist").addEventListener("click", function(e){
   }
 });
 
-el("views").addEventListener("click", function(e){
-  const b = e.target.closest(".vbtn"); if(!b) return;
-  view = b.dataset.v;
-  Array.prototype.forEach.call(this.children, function(x){
+el("labtags").addEventListener("click", function(e){
+  const b = e.target.closest(".chip"); if(!b || b.disabled) return;
+  const g = b.dataset.lt || null;
+  labTag = (labTag === g) ? null : g;
+  labId = null; labSec = null;
+  const labs = CATALOG.filter(function(x){ return !x.soon && labTag && x.tags.indexOf(labTag) !== -1; });
+  if(labs.length === 1) openLab(labs[0].id); else drawLabs();
+});
+el("labnav").addEventListener("click", function(e){
+  const b = e.target.closest("[data-sec]"); if(b) LabKit.go(b.dataset.sec);
+});
+el("labroot").addEventListener("click", function(e){
+  const b = e.target.closest("button,a"); if(!b) return;
+  if(b.dataset.lab){ openLab(b.dataset.lab); return; }
+  const mod = labId && LabKit.get(labId);
+  if(mod && mod.click) mod.click(b, e);
+});
+el("labroot").addEventListener("keydown", function(e){
+  const mod = labId && LabKit.get(labId);
+  if(mod && mod.keydown) mod.keydown(e);
+});
+el("labroot").addEventListener("input", function(e){
+  const mod = labId && LabKit.get(labId);
+  if(mod && mod.input) mod.input(e);
+});
+
+function setView(v){
+  view = v;
+  Array.prototype.forEach.call(el("views").children, function(x){
     x.setAttribute("aria-pressed", x.dataset.v === view ? "true" : "false");
   });
-  const isQ = view === "q";
+  const isQ = view === "q", isL = view === "l";
   // lvlchips здесь обязателен: уровни относятся только к вопросам,
   // в разделе кейсов эти чипсы ни на что не влияют.
   ["chips","lvlchips","q","fUnknown","fUnseen","rnd","toggleAll","progress","count","list"]
     .forEach(function(id){ el(id).hidden = !isQ; });
-  el("casechips").hidden = isQ;
-  el("casewrap").hidden = isQ;
+  el("casechips").hidden = view !== "c";
+  el("casewrap").hidden = view !== "c";
+  el("labtags").hidden = !isL;
+  el("labnav").hidden = !isL || !labId;
+  el("labwrap").hidden = !isL;
+  el("row2").hidden = isL;
+  if(isL) drawLabs(); else writeHash();
   drawLangNote();
   syncBarOffsetSoon();
+}
+
+el("views").addEventListener("click", function(e){
+  const b = e.target.closest(".vbtn"); if(!b) return;
+  setView(b.dataset.v);
   window.scrollTo({top:0, behavior:"smooth"});
 });
 
@@ -597,7 +747,12 @@ el("reset").addEventListener("click", function(){
 
 /* ---------------- перенос прогресса ---------------- */
 el("exportBtn").addEventListener("click", function(){
-  const payload = { format: "it-drill-progress", version: 1, savedAt: new Date().toISOString(), marks: marks };
+  const labs = {};
+  CATALOG.forEach(function(x){
+    if(!x.store) return;
+    try { const v = localStorage.getItem(x.store); if(v) labs[x.store] = JSON.parse(v); } catch(e){}
+  });
+  const payload = { format: "it-drill-progress", version: 1, savedAt: new Date().toISOString(), marks: marks, labs: labs };
   const blob = new Blob([JSON.stringify(payload, null, 2)], {type:"application/json"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
@@ -611,12 +766,16 @@ el("importFile").addEventListener("change", function(e){
   r.onload = function(){
     try {
       const data = JSON.parse(r.result);
-      const m = data && data.marks;
+      const m = data && data.marks, labs = (data && data.labs) || {};
       if(!m || typeof m !== "object") throw new Error(t("importNoMarks"));
       let n = 0;
       Object.keys(m).forEach(function(k){ if(m[k]){ marks[k] = m[k]; n++; } });
+      // модули лаб держат состояние в памяти, поэтому после записи нужна перезагрузка
+      const stores = CATALOG.map(function(x){ return x.store; }).filter(function(k){ return k && labs[k]; });
+      stores.forEach(function(k){ try { localStorage.setItem(k, JSON.stringify(labs[k])); } catch(e){} });
       save(); paintAllMarks(); drawProgress(); apply();
-      alert(fmt(t("importedN"), {n: n}));
+      alert(fmt(t("importedN"), {n: n}) + (stores.length ? "\n" + fmt(t("importedLabs"), {n: stores.length}) : ""));
+      if(stores.length) location.reload();
     } catch(err){
       alert(fmt(t("importFailed"), {err: err.message}));
     }
@@ -630,6 +789,19 @@ window.addEventListener("resize", syncBarOffsetSoon);
 /* шрифты подгружаются после первой отрисовки и меняют высоту панели */
 if(document.fonts && document.fonts.ready) document.fonts.ready.then(syncBarOffset);
 
-loadLang(lang, renderAll);
+(function routeFromHash(){
+  const p = (location.hash || "").replace(/^#/, "").split("/");
+  if(p[0] !== "labs") return;
+  view = "l";
+  if(p[1] && LAB_BY[p[1]]){ labId = p[1]; labSec = p[2] || null; labTag = LAB_BY[p[1]].tags[0]; }
+})();
+
+loadLang(lang, function(){
+  renderAll();
+  if(view === "l"){
+    setView("l");
+    if(labId) openLab(labId, labSec);
+  }
+});
 
 })();

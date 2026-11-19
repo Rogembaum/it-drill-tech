@@ -70,7 +70,7 @@ body{
 
 /* ---------- header ---------- */
 header.top{padding:44px 0 26px; border-bottom:1px solid var(--rule)}
-.toprow{display:flex; justify-content:space-between; align-items:flex-start; gap:12px}
+.toprow{display:flex; justify-content:space-between; align-items:center; gap:12px}
 .gh{
   flex:0 0 auto; display:flex; align-items:center; justify-content:center;
   width:32px; height:32px; border:1px solid var(--rule-strong);
@@ -106,7 +106,15 @@ h1{
 
 .barhead{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px}
 .barhead .views{margin-bottom:0}
-.langs .vbtn{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.06em; padding:9px 13px}
+/* язык: сегмент высотой с кнопку GitHub; активный — акцентом, чтобы не читался как третья иконка */
+.tools{display:flex; align-items:center; gap:10px}
+.langs{display:flex; height:32px; border:1px solid var(--rule-strong); border-radius:2px; overflow:hidden; background:var(--surface)}
+.langs .vbtn{
+  font:500 11px/1 "IBM Plex Mono",monospace; letter-spacing:.08em; padding:0 10px; min-width:36px;
+  background:transparent; color:var(--muted); border-right:1px solid var(--rule)
+}
+.langs .vbtn:hover{color:var(--accent)}
+.langs .vbtn[aria-pressed="true"]{background:var(--accent-soft); color:var(--accent-ink); cursor:default}
 .tag.untr{color:var(--warn); border-color:var(--warn); cursor:help}
 .notice{
   margin:16px 0 0; padding:9px 12px; border-left:3px solid var(--warn);
@@ -154,7 +162,6 @@ h1{
 .trap{background:var(--surface-2)}
 .trap p{margin:0; font-size:14px; color:var(--ink-2)}
 .solve{margin-top:12px}
-
 /* ---------- toolbar ---------- */
 .bar{
   position:sticky; top:0; z-index:20; background:var(--bg);
@@ -280,15 +287,22 @@ footer.end a{color:var(--accent)}
 }
 label.btn{display:inline-flex; align-items:center}
 </style>
+<link rel="stylesheet" href="labs/lab.css">
 </head>
 <body>
 <div class="wrap">
 <header class="top">
   <div class="toprow">
     <div class="eyebrow" id="brand"></div>
-    <a class="gh" href="https://github.com/Rogembaum/it-drill-tech" target="_blank" rel="noopener noreferrer" aria-label="GitHub: Rogembaum/it-drill-tech" title="GitHub">
+    <div class="tools">
+      <div class="langs" id="langs" role="group" aria-label="Язык / Language"></div>
+      <a class="gh" href="https://github.com/Rogembaum/it-drill-tech" target="_blank" rel="noopener noreferrer" aria-label="GitHub: Rogembaum/it-drill-tech" title="GitHub">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
     </a>
+      <a class="gh" href="https://www.linkedin.com/in/rogembaum/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn: rogembaum" title="LinkedIn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.119 20.452H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+    </div>
   </div>
   <h1 id="siteTitle"></h1>
   <p class="lede" id="siteLede"></p>
@@ -306,13 +320,15 @@ label.btn{display:inline-flex; align-items:center}
     <div class="views" id="views">
       <button class="vbtn" id="vQ" data-v="q" aria-pressed="true">Вопросы <span id="nQ">0</span></button>
       <button class="vbtn" id="vC" data-v="c" aria-pressed="false">Кейсы <span id="nC">0</span></button>
+      <button class="vbtn" id="vL" data-v="l" aria-pressed="false">Лабы <span id="nL">0</span></button>
     </div>
-    <div class="views langs" id="langs" role="group" aria-label="Язык / Language"></div>
   </div>
   <div class="lchips" id="lvlchips"></div>
   <div class="chips" id="chips"></div>
   <div class="chips" id="casechips" hidden></div>
-  <div class="row2">
+  <div class="chips" id="labtags" hidden></div>
+  <nav class="lx-tabs" id="labnav" aria-label="Разделы лабы" hidden></nav>
+  <div class="row2" id="row2">
     <input type="search" id="q" placeholder="Поиск: TIME_WAIT, vacuum, inode, GCM…" aria-label="Поиск по вопросам">
     <button class="btn" id="fUnknown" aria-pressed="false"></button>
     <button class="btn" id="fUnseen" aria-pressed="false"></button>
@@ -336,6 +352,10 @@ label.btn{display:inline-flex; align-items:center}
   <div class="qlist" id="caselist"></div>
 </div>
 
+<div id="labwrap" hidden>
+  <div id="labroot"></div>
+</div>
+
 <footer class="end"><span id="siteFooter"></span></footer>
 </div>
 
@@ -343,6 +363,8 @@ label.btn{display:inline-flex; align-items:center}
 <script src="data/config.js"></script>
 <script src="data/questions.js"></script>
 <script src="data/cases.js"></script>
+<script src="labs/kit.js"></script>
+<script src="labs/catalog.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
