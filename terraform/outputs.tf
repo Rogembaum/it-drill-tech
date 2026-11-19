@@ -4,7 +4,7 @@ output "project_id" {
 }
 
 output "bucket_name" {
-  description = "Имя бакета — подставляется в BUCKET для tools/deploy.sh."
+  description = "Имя бакета — BUCKET в job cd (.github/workflows/ci.yml)."
   value       = openstack_objectstorage_container_v1.site.name
 }
 
@@ -44,8 +44,10 @@ output "next_steps" {
         DNS-style  : %(bucket)s.s3.${var.region}.storage.selcloud.ru
         Region     : ${var.region}
 
-    Выложить сайт:
-      BUCKET=${openstack_objectstorage_container_v1.site.name} ./tools/deploy.sh
+    Выкладка — job cd в .github/workflows/ci.yml при push в main.
+    GitHub → Settings → Environments → it-drill → secrets:
+      S3_ACCESS_KEY = terraform output -raw deploy_access_key
+      S3_SECRET_KEY = terraform output -raw deploy_secret_key
 
     Руками в панели (через API не настраивается):
       1. Вкладка «Веб-сайт» → хостинг → /${var.index_document}
