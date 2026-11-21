@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: llm-gateway
+  namespace: monitoring
+spec:
+  groups:
+    - name: llm-gateway
+      rules:
+        - alert: LLMSlow
+          expr: histogram_quantile(0.95, rate(llm_ttft_seconds_bucket[30s])) > 3
+          labels:
+            severity: warning

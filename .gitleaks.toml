@@ -1,0 +1,12 @@
+[extend]
+useDefault = true
+
+# Учебные фейковые ключи в заданиях AI DevOps: заготовки (starter), которые
+# студент должен очистить, и тестовые строки детектора секретов F52.
+# Разрешены только эти точные значения — любой другой ключ по-прежнему ловится.
+[allowlist]
+description = "Fake training secrets in tools/aidevops and labs/aidevops"
+regexes = [
+  '''sk-(?:or-v1|proj)-0123456789abcdef0123456789abcdef''',
+  '''glpat-AbCdEfGhIjKlMnOpQrSt''',
+]

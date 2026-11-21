@@ -1,0 +1,11 @@
+{
+  "id": "G45",
+  "domain": "12 gateway",
+  "title": "LiteLLM: config.yaml внутреннего шлюза (локальные модели + OpenRouter)",
+  "prereq": "",
+  "files": [
+    "config.yaml"
+  ],
+  "goal": "Конфиг LiteLLM собран «на коленке»: ключ OpenRouter и master key лежат в файле, локальная модель смотрит в публичный адрес, критичная локальная модель при сбое молча падает в облако. Приведи config.yaml к виду, который можно отдать в ревью ИБ: секреты только из окружения, локальный vLLM по внутреннему адресу, метка locality на каждой модели, fallback только из облака в локальный контур, лимиты и таймауты.",
+  "evidence": "Нет литеральных ключей; все api_key/master_key/database_url — os.environ/; локальная модель — hosted_vllm с api_base *.svc; у каждой модели model_info.locality; fallbacks ссылаются на существующие модели и не ведут из local в cloud; у облачной модели есть rpm; router_settings.num_retries 1–3 и timeout 1–600."
+}

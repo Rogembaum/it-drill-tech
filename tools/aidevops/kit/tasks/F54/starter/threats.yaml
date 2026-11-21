@@ -1,0 +1,29 @@
+# Черновик реестра угроз. В таком виде ИБ не согласует.
+threats:
+  - id: LLM01
+    title: Prompt Injection
+    severity: medium
+    owner: ai-platform
+    status: planned
+    controls:
+      - id: system-prompt
+        type: preventive
+        implemented_by: "в системном промпте написано не слушаться пользователя"
+    tests: []
+  - id: LLM02
+    title: Sensitive Information Disclosure
+    severity: high
+    owner: TBD
+    status: planned
+    controls: []
+    tests: []
+  - id: LLM10
+    title: Unbounded Consumption
+    severity: medium
+    owner: ai-platform
+    status: accepted
+    controls:
+      - id: monthly-review
+        type: detective
+        implemented_by: TODO
+    tests: []

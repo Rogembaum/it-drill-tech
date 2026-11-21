@@ -1,0 +1,11 @@
+{
+  "id": "W66",
+  "domain": "15 platform",
+  "title": "Наблюдаемость шлюза: PrometheusRule на TTFT, обрывы, ошибки и бюджет команд",
+  "prereq": "I59",
+  "files": [
+    "llm-rules.yaml"
+  ],
+  "goal": "Метрики шлюза и пробника (I59) есть, а алерты срабатывают раз в неделю случайно: p95 TTFT посчитан без by (le), окно rate 30 секунд, нет for, нет runbook, про обрывы стрима и бюджет команд ничего. Напиши PrometheusRule, по которому дежурный узнаёт о деградации модели раньше пользователей, а владелец бюджета — до того, как команда упрётся в лимит.",
+  "evidence": "PrometheusRule monitoring.coreos.com/v1; recording rule p95 TTFT через histogram_quantile(0.95, sum by (le, model) (rate(llm_ttft_seconds_bucket[5m]))); алерты на TTFT p95, долю обрывов llm_stream_dropped_total / llm_requests_total, 5xx, бюджет команды ≥ 80% по llm_spend_usd_total и llm_team_budget_usd; окна rate ≥ 2m; for ≥ 5m; severity, summary, runbook_url."
+}

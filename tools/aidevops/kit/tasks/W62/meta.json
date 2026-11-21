@@ -1,0 +1,11 @@
+{
+  "id": "W62",
+  "domain": "15 platform",
+  "title": "OpenWebUI: compose для прод-контура за внутренним шлюзом",
+  "prereq": "",
+  "files": [
+    "compose.yaml"
+  ],
+  "goal": "OpenWebUI подняли одной командой из README: образ :main, SQLite в контейнере, открытая регистрация, порт на 0.0.0.0, ключ OpenAI в compose и разрешённые пользовательские подключения — любой может вписать свой ключ OpenRouter и ходить мимо шлюза. Перепиши compose под прод: Postgres, секреты из окружения, только внутренний LiteLLM, регистрация через одобрение, закрытые direct connections.",
+  "evidence": "Образы с фиксированными тегами; WEBUI_SECRET_KEY, ключ шлюза и пароль БД — ${...}; ENABLE_SIGNUP=false, DEFAULT_USER_ROLE=pending, WEBUI_AUTH не выключен; OPENAI_API_BASE_URL на http://litellm:4000/v1; ENABLE_DIRECT_CONNECTIONS=false, ENABLE_OLLAMA_API=false, ENABLE_COMMUNITY_SHARING=false; DATABASE_URL на postgres; volume и healthcheck; порт только на 127.0.0.1; Postgres без публикации портов, depends_on service_healthy."
+}

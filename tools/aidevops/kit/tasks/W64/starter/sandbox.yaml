@@ -1,0 +1,14 @@
+services:
+  agent-sandbox:
+    image: python:3.12
+    user: root
+    privileged: true
+    volumes:
+      - ./workspace:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.ssh:/root/.ssh
+    environment:
+      LITELLM_API_KEY: sk-team-dev-0123456789abcdef
+    ports:
+      - "8888:8888"
+    command: sleep infinity

@@ -1,0 +1,11 @@
+{
+  "id": "I57",
+  "domain": "14 inference",
+  "title": "vLLM в Kubernetes: локальный инференс Qwen/DeepSeek в защищённом контуре",
+  "prereq": "",
+  "files": [
+    "vllm.yaml"
+  ],
+  "goal": "Локальную модель для критичной разработки развернули по README из интернета: образ latest, веса качаются с Hugging Face при старте, API без ключа, Service типа LoadBalancer, trust-remote-code, root, без проб и лимитов GPU. Приведи Deployment и Service vLLM к виду, который пройдёт ревью ИБ и не будет падать при загрузке весов.",
+  "evidence": "Образ vllm/vllm-openai с фиксированным тегом или digest; модель из /models на readOnly PVC, HF_HUB_OFFLINE=1; VLLM_API_KEY из Secret; без --trust-remote-code; --max-model-len; лимит nvidia.com/gpu и toleration; startupProbe ≥ 10 минут, readiness и liveness на /health; non-root, без эскалации, drop ALL, без токена SA; /dev/shm в памяти; Service ClusterIP."
+}
