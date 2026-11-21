@@ -1,0 +1,11 @@
+{
+  "id": "W64",
+  "domain": "15 platform",
+  "title": "Sandbox для coding-агентов и внешних подрядчиков",
+  "prereq": "",
+  "files": [
+    "sandbox.yaml"
+  ],
+  "goal": "Coding-агент запускает команды в контейнере, который смонтировал docker.sock, домашний каталог с ~/.ssh и работает от root в сети с интернетом. Один prompt injection — и агент может всё, что может хост. Перепиши compose sandbox: только рабочий каталог, никакой сети кроме внутренней до шлюза, non-root, read-only rootfs, без capabilities, с лимитами.",
+  "evidence": "Фиксированный образ; user не root; read_only и tmpfs /tmp; cap_drop ALL без cap_add; no-new-privileges; не privileged; монтируется только ./workspace в /workspace — без docker.sock, $HOME, ~/.ssh, / и /etc; network_mode none или только internal-сети; pids_limit ≤ 512, mem_limit и cpus; нет ports; секреты только через ${...}."
+}

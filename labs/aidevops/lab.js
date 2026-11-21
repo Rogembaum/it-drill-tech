@@ -140,7 +140,7 @@ function vHome(){
   + '<div class="lx-facts">'
   +   [[String(TASKS.length),"задач с автопроверкой PASS / FAIL / SKIP"],[String(MODS.length - 1),"направлений, плюс итоговый проект"],
        ["CPU","kind, Ollama и mock-режим, GPU не нужен"],[String(QUIZ.length),"вопросов, варианты перемешиваются"],
-       [String(nNew),"новых материалов на сайте: ModelOps L41–L44 и др."],[okAll+"/"+TASKS.length,"задач решено у вас"]]
+       [String(nNew),"новых материалов на сайте: шлюзы, AI Security, инференс, платформа и др."],[okAll+"/"+TASKS.length,"задач решено у вас"]]
       .map(function(f){ return '<div class="lx-fact"><b>'+f[0]+'</b><span>'+f[1]+'</span></div>'; }).join("")
   + '</div>'
   + '<section class="lx-card">'
@@ -174,9 +174,10 @@ function vHome(){
   +     '<ul class="lx-list">'
   +       '<li>Каждая задача прогнана дважды: эталон проходит офлайн-проверки, стартовые файлы их не проходят.</li>'
   +       '<li>SKIP — проверка не проводилась (нужен GitLab, n8n, Postgres, MCP SDK или живой кластер). Это не «сдано»: подтвердите вручную.</li>'
-  +       '<li>Live-проверки K07–K09, S13 и L43 требуют применённых манифестов в <code>kind-ai-labs</code>, а для L43 — ещё KEDA и Prometheus.</li>'
+  +       '<li>Live-проверки K07–K09, S13 и L43 требуют применённых манифестов в <code>kind-ai-labs</code>, а для L43 — ещё KEDA и Prometheus. В G45–W67 живая часть (LiteLLM, OpenWebUI, vLLM на GPU, карантин в kind) отмечена SKIP и описана в практикумах.</li>'
   +       '<li>Исправлено в архиве: CI задачи C37 (зависимости и импорт), чтение UTF-8 в тестах на Windows, <code>pytest.ini</code> для запуска из корня, справка и экзамен <code>./ai-lab</code>.</li>'
   +       '<li>Добавлено: направление ModelOps — задачи L41–L44, вопросы, переписанные практикумы по RAG, evals, AI-native и автоматизации.</li>'
+  +       '<li>Добавлено: LLM-шлюзы и биллинг (G45–G49), AI Security и AI firewall (F50–F55), безопасный инференс и выбор моделей (I56–I61), AI-платформа разработки (W62–W67) и 17 практикумов от первого запуска до прода.</li>'
   +       '<li>В вопросах правильный ответ чаще стоял вторым; здесь варианты перемешиваются.</li>'
   +     '</ul>'
   +   '</section>'

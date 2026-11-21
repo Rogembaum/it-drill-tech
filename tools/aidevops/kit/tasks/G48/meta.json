@@ -1,0 +1,11 @@
+{
+  "id": "G48",
+  "domain": "12 gateway",
+  "title": "OpenRouter: подключить новую модель за 15 минут без нарушения политики",
+  "prereq": "G45",
+  "files": [
+    "onboard.py"
+  ],
+  "goal": "Разработчики просят «дай GLM/Kimi/новый DeepSeek прямо сейчас». Подключение должно занимать минуты, но не обходить политику: разрешённые вендоры, потолок цены, минимальный контекст, поддержка tools, запрет :free-вариантов, запрет сбора данных у провайдера. Напиши onboard(), который из карточки модели каталога OpenRouter делает запись model_list для LiteLLM или отклоняет модель с причиной.",
+  "evidence": "Вендор вне allowlist, :free, нет цены, цена выше потолка, контекст меньше минимума, нет tools — PolicyError; запись содержит openrouter/<id>, api_key из os.environ, rpm, extra_body.provider с data_collection=deny и zdr=true, model_info.locality=cloud и цены за токен как в каталоге."
+}

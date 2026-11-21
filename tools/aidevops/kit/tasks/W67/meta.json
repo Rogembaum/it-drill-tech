@@ -1,0 +1,11 @@
+{
+  "id": "W67",
+  "domain": "15 platform",
+  "title": "Карантинный контур: namespace для внешней разработки в Kubernetes",
+  "prereq": "S14",
+  "files": [
+    "quarantine.yaml"
+  ],
+  "goal": "Подрядчику нужен доступ к коду и к LLM-шлюзу, но не к проду, интернету и GPU. Сейчас его namespace ничем не отличается от остальных: Pod Security не включён, сеть открыта, квот нет, можно создать LoadBalancer. Опиши карантинный контур: restricted Pod Security, default-deny, egress только в DNS, шлюз и git-зеркало, квоты без GPU и внешних сервисов.",
+  "evidence": "Namespace quarantine с pod-security enforce=restricted; NetworkPolicy default-deny для Ingress и Egress; egress только DNS в kube-system (53 UDP/TCP), llm-gateway app=litellm:4000, git-mirror app=gitlab:443; нет ipBlock 0.0.0.0/0; ResourceQuota с cpu/memory/pods, requests.nvidia.com/gpu 0, services.loadbalancers 0, services.nodeports 0; LimitRange с default limits."
+}

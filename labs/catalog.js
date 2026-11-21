@@ -28,10 +28,10 @@ window.LAB_CATALOG = [
     tags: ["AI DevOps"],
     title: { ru: "AI DevOps: агенты, RAG, evals", en: "AI DevOps: agents, RAG, evals" },
     lede: {
-      ru: "Задачи с автопроверкой на CPU и kind: сервис агента и tool calling, MCP, Kubernetes, CI-гейты, безопасность, RAG, evals, автоматизация и LLM serving. Практикумы с чек-листами, вопросы, экзамен, сертификации и портфолио.",
-      en: "Auto-graded tasks on CPU and kind: agent service and tool calling, MCP, Kubernetes, CI gates, security, RAG, evals, automation and LLM serving. Checklist workshops, questions, an exam, certifications and portfolio tracks."
+      ru: "Задачи с автопроверкой на CPU и kind: сервис агента и tool calling, MCP, Kubernetes, CI-гейты, безопасность, RAG, evals, автоматизация и LLM serving, LLM-шлюзы (LiteLLM, OpenRouter, биллинг), AI firewall и PII, безопасный инференс и выбор моделей, OpenWebUI и coding-харнессы. Практикумы с чек-листами, вопросы, экзамен, сертификации и портфолио.",
+      en: "Auto-graded tasks on CPU and kind: agent service and tool calling, MCP, Kubernetes, CI gates, security, RAG, evals, automation and LLM serving, LLM gateways (LiteLLM, OpenRouter, billing), AI firewall and PII, secure inference and model selection, OpenWebUI and coding harnesses. Checklist workshops, questions, an exam, certifications and portfolio tracks."
     },
-    stats: { ru: "44 задачи · 112 вопросов · 22 практикума", en: "44 tasks · 112 questions · 22 workshops" },
+    stats: { ru: "67 задач · 128 вопросов · 39 практикумов", en: "67 tasks · 128 questions · 39 workshops" },
     store: "it-drill-lab-aidevops-v1"
   }
 ];

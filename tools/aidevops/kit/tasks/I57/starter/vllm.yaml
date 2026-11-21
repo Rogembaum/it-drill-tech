@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-qwen-coder
+  namespace: ai-inference
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: vllm-qwen-coder}
+  template:
+    metadata:
+      labels: {app: vllm-qwen-coder}
+    spec:
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:latest
+          args:
+            - --model
+            - Qwen/Qwen2.5-Coder-32B-Instruct
+            - --trust-remote-code
+          ports:
+            - containerPort: 8000
+          env:
+            - name: HUGGING_FACE_HUB_TOKEN
+              value: hf_xxxxxxxxxxxxxxxxxxxxxxxx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm-qwen-coder
+  namespace: ai-inference
+spec:
+  type: LoadBalancer
+  selector: {app: vllm-qwen-coder}
+  ports:
+    - port: 8000
+      targetPort: 8000

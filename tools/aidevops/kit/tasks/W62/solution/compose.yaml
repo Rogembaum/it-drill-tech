@@ -1,0 +1,59 @@
+name: openwebui
+
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:v0.6.30
+    ports:
+      - "127.0.0.1:3000:8080"
+    environment:
+      WEBUI_URL: https://chat.corp.local
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:?set WEBUI_SECRET_KEY}
+      ENABLE_SIGNUP: "false"
+      DEFAULT_USER_ROLE: pending
+      OPENAI_API_BASE_URL: http://litellm:4000/v1
+      OPENAI_API_KEY: ${OPENWEBUI_LITELLM_KEY:?set OPENWEBUI_LITELLM_KEY}
+      ENABLE_OLLAMA_API: "false"
+      ENABLE_DIRECT_CONNECTIONS: "false"
+      ENABLE_COMMUNITY_SHARING: "false"
+      DATABASE_URL: postgresql://openwebui:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@postgres:5432/openwebui
+    volumes:
+      - open-webui:/app/backend/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    networks: [frontend, backend, llm]
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16.10
+    environment:
+      POSTGRES_DB: openwebui
+      POSTGRES_USER: openwebui
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openwebui -d openwebui"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [backend]
+    restart: unless-stopped
+
+networks:
+  frontend: {}
+  backend:
+    internal: true
+  llm:
+    external: true
+    name: llm-gateway
+
+volumes:
+  open-webui: {}
+  pgdata: {}
