@@ -9,3 +9,5 @@ description: Проверить staged-изменения, закоммитит�
 3. **Ветка:** Если текущая ветка — `main`, создай новую тематическую ветку (`feat/...`, `fix/...`, `docs/...`), сохранив staged-изменения.
 4. **Коммит:** Проанализируй `git diff --cached` и создай коммит по стандарту Conventional Commits (для корректного SemVer-релиза: `feat`, `fix`, `docs` и т. д.) с понятным описанием.
 5. **Пуш и PR:** Отправь ветку в origin (`git push -u origin HEAD`) и создай Pull Request в ветку `main` через `gh pr create` с заголовком в стиле Conventional Commits и кратким списком изменений.
+
+<!-- Get-Content .github/prompts/ship-staged.prompt.md -Raw | gh copilot -- --allow-all-tools -->
