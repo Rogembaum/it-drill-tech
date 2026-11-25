@@ -23,8 +23,8 @@ window.SITE = {
   },
 
   lede: {
-    ru: "Вопросы по Linux, сетям, базам данных, протоколам, криптографии и файловым системам плюс разборы реальных инцидентов. Каждая тема выстроена лесенкой: базовый вопрос → тот же сюжет на уровне middle → то, что спрашивают у senior. Внутри ответа есть переход на соседнюю ступень, поэтому можно начать с простого и углубляться ровно там, где чувствуете пробел.",
-    en: "Questions on Linux, networking, databases, protocols, cryptography and filesystems, plus walkthroughs of real incidents. Every topic is built as a ladder: a basic question, then the same subject at middle level, then what senior candidates get asked. Each answer links to the neighbouring step, so you can start simple and go deeper exactly where you feel a gap."
+    ru: "Вопросы по Linux, сетям, базам данных, протоколам, криптографии, файловым системам, AI-инфраструктуре и GPU плюс разборы реальных инцидентов. Каждая тема выстроена лесенкой: базовый вопрос → тот же сюжет на уровне middle → то, что спрашивают у senior. Внутри ответа есть переход на соседнюю ступень, поэтому можно начать с простого и углубляться ровно там, где чувствуете пробел.",
+    en: "Questions on Linux, networking, databases, protocols, cryptography, filesystems, AI infrastructure and GPUs, plus walkthroughs of real incidents. Every topic is built as a ladder: a basic question, then the same subject at middle level, then what senior candidates get asked. Each answer links to the neighbouring step, so you can start simple and go deeper exactly where you feel a gap."
   },
 
   caseLede: {
@@ -63,7 +63,9 @@ window.TOPICS = [
   ["fs",     { ru: "Файловые системы",  en: "Filesystems" },  "FS"],
   ["cs",     { ru: "База CS",           en: "CS basics" },    "CS"],
   ["sd",     { ru: "System design",     en: "System design" }, "SD"],
-  ["tls",    { ru: "TLS",               en: "TLS" },          "TLS"]
+  ["tls",    { ru: "TLS",               en: "TLS" },          "TLS"],
+  ["ai",     { ru: "AI в DevOps",       en: "AI in DevOps" }, "AI"],
+  ["gpu",    { ru: "GPU и NVIDIA",      en: "GPUs and NVIDIA" }, "GPU"]
 ];
 
 /* Блоки плана в шапке: [когда, что, как]. Можно менять свободно. */
