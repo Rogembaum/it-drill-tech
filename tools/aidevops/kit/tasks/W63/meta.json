@@ -1,0 +1,11 @@
+{
+  "id": "W63",
+  "domain": "15 platform",
+  "title": "Coding-харнесс в контуре: opencode через внутренний шлюз с ограниченными правами",
+  "prereq": "",
+  "files": [
+    "opencode.json"
+  ],
+  "goal": "Разработчики ставят opencode, Qwen Code, Claude Code и Codex с личными ключами облачных провайдеров: код уходит наружу, шаринг сессий включён, агент без спроса делает git push и rm -rf. Подготовь корпоративный opencode.json, который раздаётся всем: единственный провайдер — внутренний LiteLLM, ключ из окружения, без шаринга и автообновления, опасные команды запрещены, остальные — с подтверждением.",
+  "evidence": "$schema opencode; единственный провайдер corp через @ai-sdk/openai-compatible с baseURL внутреннего шлюза и apiKey {env:...}; model и small_model из corp; внешние провайдеры выключены; share=disabled, autoupdate=false; permission: edit ask, bash * ask, rm -rf / git push / curl|sh deny, webfetch deny; нет литеральных ключей."
+}

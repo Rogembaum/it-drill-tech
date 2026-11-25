@@ -1,0 +1,11 @@
+{
+  "id": "H72",
+  "domain": "16 agentarch",
+  "title": "Надёжность агента: retry с jitter, circuit breaker, бюджеты, guardrails, алерты",
+  "prereq": "H71",
+  "files": [
+    "guards.py"
+  ],
+  "goal": "GitLab отдаёт 503, агент ретраит синхронно с соседями и добивает API; прогон крутится 40 минут и тратит $30; один и тот же get_mr вызывается по кругу; каждый warn будит дежурного. Собери слой надёжности: backoff с full jitter и Retry-After, классы ошибок, circuit breaker с half-open пробой, бюджеты шагов, вызовов, денег и времени, гейт действий, детектор зацикливания и маршрутизацию алертов с cooldown.",
+  "evidence": "backoff = rnd()*min(cap, base*2^attempt), Retry-After важнее; 429/5xx/timeout — retry, 400/422 — repair, 404 — skip, 401/403 — abort; breaker: threshold ошибок — open, после recovery одна проба half_open, провал — open, успех — closed; Budget: budget_steps/tools/cost/time; guard: delete — deny, write — ask при HITL иначе deny, crit c confidence < 0.7 — ask/deny; detect_loop: 3 одинаковых вызова подряд; alert_route: crit — page, повтор в cooldown — suppress, warn/info — digest."
+}

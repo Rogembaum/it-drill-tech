@@ -1,0 +1,44 @@
+---
+description: Contracts for site questions/cases and labs (catalog, data.js builders, kit stands)
+globs: data/**/*.js,labs/**,tools/build-lab-*.py,tools/*/content.json,tools/*/kit/**
+alwaysApply: false
+---
+
+# Labs and site content
+
+## Never
+
+- Point learner steps/snippets at `tools/` (not deployed).
+- Hand-edit generated `labs/<id>/data.js` when a `tools/build-lab-<id>.py` owns it.
+- Break stable `key` fields in `data/questions.js` / `data/cases.js` (EN translations bind by key).
+- Overwrite upstream kit files by copying into `kit/` — patch via builder `KIT_PATCHES` (match once).
+
+## Site questions / cases (`data/`)
+
+- Add in RU source; mirror `key` in `data/en/…`.
+- Run `node tools/validate.mjs` (keys, required fields, EN coverage).
+- Match neighboring entries’ shape and tone.
+
+## Any lab (`labs/<id>/`)
+
+1. Prefer editing **build inputs** under `tools/`, then rebuild — not the generated `data.js`.
+2. New lab: `labs/<id>/{data.js,lab.js}` + `LabKit.register` + entry in `labs/catalog.js` (remove `soon` when ready).
+3. Update `catalog.js` `stats` after content count changes.
+4. Zip stands must be deterministic across identical rebuilds.
+
+## Lab-specific builders
+
+**cka** — `tools/build-lab-cka.py` (trainer HTML + kit path) → `labs/cka/data.js` + `cka-lab.zip`.
+
+**aidevops** — `tools/aidevops/content.json` (`questions_add`, `labs_add`, `modules_add`, …) + `tools/aidevops/kit/` + `tools/build-lab-aidevops.py` (`DOMAIN_MODULE`, `KIT_PATCHES`).
+
+- Questions: 4 options, `answer` 0–3, spread across indices; workshops’ `snippet` → `./ai-lab start|check <ID>` only.
+- Kit task: `tasks/<ID>/{meta.json,TASK.md,starter,solution}` + `lab/*_checks.py` (`NEW_IDS`, checker, **`return r`**). Mirror `W65` / `H68`.
+- Wire new domains in `KIT_PATCHES` (checks dispatcher, labctl `DOMAINS`, README/exam counts).
+
+## Verify
+
+```bash
+node tools/validate.mjs
+# if kit tasks changed: extract labs/<id>/*.zip → starter check FAIL, solution PASS (SKIP ok)
+```

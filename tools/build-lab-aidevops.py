@@ -6,8 +6,9 @@
 --academy — каталог, где лежат ai-devops-drill/ и ai-devops-labs/.
 
 Поверх исходников применяется tools/aidevops/:
-  content.json — правки и дополнения вопросов, чек-листов и сертификаций
-  kit/         — файлы, добавленные в стенд (задачи L41–L44 и их проверки)
+  content.json — правки и дополнения модулей, заметок к задачам, вопросов,
+                 чек-листов и сертификаций
+  kit/         — файлы, добавленные в стенд (задачи L41–L44, G45–W67, H68–H74 и их проверки)
   KIT_PATCHES  — точечные исправления исходных файлов стенда (ниже); если
                  исходник изменился и фрагмент не найден, сборка падает
 
@@ -34,6 +35,8 @@ DOMAIN_MODULE = {
     "01 agent": "agent", "02 tools": "mcp", "03 k8s": "k8s", "04 cicd": "cicd", "05 secure": "sec",
     "06 capstone": "capstone", "07 rag": "rag", "08 evals": "evals", "09 ainative": "native",
     "10 automation": "automation", "11 models": "models",
+    "12 gateway": "gateway", "13 aisec": "aisec", "14 inference": "inference", "15 platform": "platform",
+    "16 agentarch": "agentarch",
 }
 CAPSTONE = {"id": "capstone", "num": "—", "icon": "◇", "title": "Итоговый проект",
             "short": "Portfolio · Case study", "desc": "Связать все направления в проверяемый проект.",
@@ -45,13 +48,31 @@ KIT_PATCHES = [
      "        elif tid in __import__('modelops_checks').NEW_IDS:\n"
      "            from modelops_checks import modelops_checker\n"
      "            return modelops_checker(tid,r,W,ROOT)\n"
+     "        elif tid in __import__('gateway_checks').NEW_IDS:\n"
+     "            from gateway_checks import gateway_checker\n"
+     "            return gateway_checker(tid,r,W,ROOT)\n"
+     "        elif tid in __import__('aisec_checks').NEW_IDS:\n"
+     "            from aisec_checks import aisec_checker\n"
+     "            return aisec_checker(tid,r,W,ROOT)\n"
+     "        elif tid in __import__('inference_checks').NEW_IDS:\n"
+     "            from inference_checks import inference_checker\n"
+     "            return inference_checker(tid,r,W,ROOT)\n"
+     "        elif tid in __import__('platform_checks').NEW_IDS:\n"
+     "            from platform_checks import platform_checker\n"
+     "            return platform_checker(tid,r,W,ROOT)\n"
+     "        elif tid in __import__('agentarch_checks').NEW_IDS:\n"
+     "            from agentarch_checks import agentarch_checker\n"
+     "            return agentarch_checker(tid,r,W,ROOT)\n"
      "        elif tid in __import__('extra_checks').NEW_IDS:\n"),
     ("lab/labctl.py",
      "'10 automation':'Telegram / n8n / API'}",
-     "'10 automation':'Telegram / n8n / API',\n         '11 models':'ModelOps и LLM serving'}"),
+     "'10 automation':'Telegram / n8n / API',\n         '11 models':'ModelOps и LLM serving',\n"
+     "         '12 gateway':'LLM-шлюзы и биллинг','13 aisec':'AI Security и AI firewall',\n"
+     "         '14 inference':'Безопасный инференс и модели','15 platform':'AI-платформа разработки',\n"
+     "         '16 agentarch':'Архитектура AI-агентов'}"),
     ("lab/labctl.py",
      "вывести задачи (01 agent|02 tools|03 k8s|04 cicd|05 secure)",
-     "вывести задачи (01 agent … 11 models, см. README)"),
+     "вывести задачи (01 agent … 16 agentarch, см. README)"),
     ("lab/labctl.py",
      "./ai-lab exam                5 случайных практических задач",
      "./ai-lab exam                по одной случайной задаче из каждого направления"),
@@ -70,14 +91,19 @@ KIT_PATCHES = [
      "    - pip install -r requirements.txt\n    - python -m pytest -q tests/evals/\n"),
     ("README.md",
      "**40 сценариев по 10 тематическим направлениям**",
-     "**44 сценария по 11 тематическим направлениям**"),
+     "**74 сценария по 16 тематическим направлениям**"),
     ("README.md",
      "| P17, P38 | Capstone/portfolio | Верифицируемый case study |",
      "| P17, P38 | Capstone/portfolio | Верифицируемый case study |\n"
-     "| L41–L44 | LLM gateway, TTFT/p95, KEDA по очереди, проверка весов | ModelOps и serving без GPU |"),
+     "| L41–L44 | LLM gateway, TTFT/p95, KEDA по очереди, проверка весов | ModelOps и serving без GPU |\n"
+     "| G45–G49 | LiteLLM, виртуальные ключи, биллинг по токенам, OpenRouter, shadow AI | Внутренний шлюз и учёт расходов |\n"
+     "| F50–F55 | PII-маскирование, стрим, КТ, prompt injection, перечень угроз, AI firewall | AI Security вместе с ИБ |\n"
+     "| I56–I61 | Локально/облако, vLLM, допуск модели, TTFT и обрывы, pass@k, WER | Безопасный инференс и выбор моделей |\n"
+     "| W62–W67 | OpenWebUI, opencode, sandbox, MCP registry, Prometheus, карантин | Платформа для разработчиков |\n"
+     "| H68–H74 | Агент или workflow, инструменты GitLab, цикл и repair, state, guardrails, evals, мультиагентность | Projects Health Agent |"),
     ("README.md",
      "# 9 задач — по одной из 9 практических направлений",
-     "# 10 задач — по одной из 10 практических направлений"),
+     "# 15 задач — по одной из 15 практических направлений"),
 ]
 STD_SECTIONS = {"Сценарий", "Требования к результату"}
 
@@ -142,7 +168,7 @@ def task_notes(md):
     return keep
 
 
-def site_tasks(files, tasks, added):
+def site_tasks(files, tasks, added, extra_notes):
     out = []
     for t in tasks:
         tid = t["id"]
@@ -152,7 +178,7 @@ def site_tasks(files, tasks, added):
         out.append({
             "id": tid, "dom": DOMAIN_MODULE[t["domain"]], "title": t["title"], "prereq": t.get("prereq", ""),
             "files": t["files"], "goal": t["goal"], "ev": t["evidence"],
-            "notes": task_notes(files["tasks/%s/TASK.md" % tid].decode("utf-8")),
+            "notes": task_notes(files["tasks/%s/TASK.md" % tid].decode("utf-8")) + extra_notes.get(tid, []),
             "starter": code("starter"), "solution": code("solution"),
             "new": tid in added,
         })
@@ -160,6 +186,11 @@ def site_tasks(files, tasks, added):
 
 
 def apply_content(drill, c):
+    known = {m["id"] for m in drill["modules"]}
+    for m in c["modules_add"]:
+        if m["id"] in known:
+            raise SystemExit("модуль %s уже есть" % m["id"])
+        drill["modules"].append(m)
     qs = {q["id"]: q for q in drill["questions"]}
     for qid, fix in c["question_fix"].items():
         qs[qid].update(fix)
@@ -210,7 +241,8 @@ def main():
         p.error("в %s нет ai-devops-drill/data.json или ai-devops-labs/ai-lab" % a.academy)
 
     drill = json.loads(read(drill_json))
-    apply_content(drill, json.loads(read(os.path.join(SRC, "content.json"))))
+    content = json.loads(read(os.path.join(SRC, "content.json")))
+    apply_content(drill, content)
     files, tasks, added = build_kit(labs_dir)
 
     os.makedirs(OUT, exist_ok=True)
@@ -219,7 +251,7 @@ def main():
 
     body = ",\n".join([
         "modules: " + rows(drill["modules"] + [CAPSTONE]),
-        "tasks: " + rows(site_tasks(files, tasks, added)),
+        "tasks: " + rows(site_tasks(files, tasks, added, content["task_notes"])),
         "questions: " + rows(drill["questions"]),
         "labs: " + rows(drill["labs"]),
         "certs: " + rows(sorted(drill["certs"], key=lambda c: c["order"])),

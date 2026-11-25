@@ -1,0 +1,59 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: llm-gateway
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: llm-gateway.recording
+      rules:
+        - record: llm:ttft_seconds:p95_5m
+          expr: histogram_quantile(0.95, sum by (le, model) (rate(llm_ttft_seconds_bucket[5m])))
+        - record: llm:requests:rate5m
+          expr: sum by (model) (rate(llm_requests_total[5m]))
+
+    - name: llm-gateway.alerts
+      rules:
+        - alert: LLMTTFTHigh
+          expr: llm:ttft_seconds:p95_5m > 3
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "p95 TTFT модели {{ $labels.model }} выше 3 с"
+            runbook_url: https://wiki.corp.local/runbooks/llm-ttft
+
+        - alert: LLMStreamDropsHigh
+          expr: |
+            sum by (model) (rate(llm_stream_dropped_total[10m]))
+              / sum by (model) (rate(llm_requests_total[10m])) > 0.02
+          for: 10m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Больше 2% стримов модели {{ $labels.model }} обрываются"
+            runbook_url: https://wiki.corp.local/runbooks/llm-stream-drops
+
+        - alert: LLMErrorRateHigh
+          expr: |
+            sum by (model) (rate(llm_requests_total{status=~"5.."}[5m]))
+              / sum by (model) (rate(llm_requests_total[5m])) > 0.05
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Больше 5% ответов 5xx у модели {{ $labels.model }}"
+            runbook_url: https://wiki.corp.local/runbooks/llm-errors
+
+        - alert: LLMTeamBudget80
+          expr: |
+            sum by (team) (increase(llm_spend_usd_total[30d]))
+              > 0.8 * max by (team) (llm_team_budget_usd)
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Команда {{ $labels.team }} израсходовала больше 80% месячного бюджета"
+            runbook_url: https://wiki.corp.local/runbooks/llm-budget

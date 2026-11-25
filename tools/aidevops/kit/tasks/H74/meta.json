@@ -1,0 +1,11 @@
+{
+  "id": "H74",
+  "domain": "16 agentarch",
+  "title": "Мультиагентный разбор GitLab: когда делить, роутинг, изоляция, merge",
+  "prereq": "H73",
+  "files": [
+    "multi.py"
+  ],
+  "goal": "Один агент на 300 проектов не влезает в контекст, и команда предлагает пять агентов «для всего». Реши формально, когда мультиагентность окупается, реализуй статический, условный и динамический роутинг с fallback на supervisor, запусти воркеры на изолированных копиях входа и слей находки: dedup по ключу, максимум severity, evidence без дублей, источники и флаг конфликта.",
+  "evidence": "should_split: tight_coupling, nothing_to_parallelize, low_value_for_cost, fits_single_agent или split; route static/conditional/dynamic, неизвестное и выдуманное моделью — supervisor; merge: ключ с object_id как строкой, порядок первого появления, max severity, evidence из строки и списка без дублей, sources, conflict при разнице info/crit, повторный merge не падает; supervise: воркеры получают deepcopy, результат слит."
+}

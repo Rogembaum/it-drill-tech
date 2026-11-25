@@ -1,0 +1,30 @@
+# LiteLLM proxy внутреннего контура. Секреты — только из окружения (Vault / External Secrets).
+model_list:
+  - model_name: qwen-coder-local
+    litellm_params:
+      model: hosted_vllm/Qwen/Qwen2.5-Coder-32B-Instruct
+      api_base: http://vllm-qwen-coder.ai-inference.svc:8000/v1
+      api_key: os.environ/VLLM_API_KEY
+    model_info:
+      locality: local
+  - model_name: deepseek-cloud
+    litellm_params:
+      model: openrouter/deepseek/deepseek-chat-v3.1
+      api_key: os.environ/OPENROUTER_API_KEY
+      rpm: 120
+    model_info:
+      locality: cloud
+
+router_settings:
+  num_retries: 2
+  timeout: 120
+  fallbacks:
+    # облако -> локальный контур допустимо; обратного направления нет намеренно
+    - deepseek-cloud: ["qwen-coder-local"]
+
+litellm_settings:
+  drop_params: true
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+  database_url: os.environ/DATABASE_URL

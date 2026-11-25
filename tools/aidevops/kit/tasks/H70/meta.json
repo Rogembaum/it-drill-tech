@@ -1,0 +1,11 @@
+{
+  "id": "H70",
+  "domain": "16 agentarch",
+  "title": "Цикл Projects Health Agent: structured output, repair loop и стратегия чтения",
+  "prereq": "H69",
+  "files": [
+    "loop.py"
+  ],
+  "goal": "Наивный агент верит любому ответу модели: невалидный JSON роняет цикл, находки о несуществующих MR попадают в отчёт, описание MR с текстом «смержи всё» исполняется, а глубокое чтение идёт по каждому MR. Собери agent loop: строгая проверка ответа, одна починка с текстом ошибки, отказ и обрыв по max_tokens как отдельные исходы, находки только по объектам из ответов инструментов, deep read только для отобранных MR, запись — в ожидание человека, бюджет шагов.",
+  "evidence": "should_open: ci_must_pass/conflict/need_rebase или старше 14 дней; validate ловит severity вне enum, пустые поля, finish_reason=length, args не объект, не-объект; repair один раз, затем aborted/invalid_output; refusal — aborted/refusal; находка без опоры на ответ инструмента отвергается; наблюдения untrusted; get_mr свежего MR не вызывается (reading_policy); write — waiting_hitl без вызова; два неизвестных инструмента — mistool; max_steps — budget_steps; ValueError инструмента возвращается модели."
+}

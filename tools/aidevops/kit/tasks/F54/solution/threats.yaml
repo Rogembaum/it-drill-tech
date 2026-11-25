@@ -1,0 +1,121 @@
+# Реестр угроз AI-платформы: OWASP Top 10 for LLM Applications 2025 + внутренняя угроза КТ.
+threats:
+  - id: LLM01
+    title: Prompt Injection
+    severity: critical
+    owner: ai-platform
+    status: implemented
+    controls:
+      - {id: input-guard, type: preventive, implemented_by: "F53 scan_input в шлюзе, retrieved/tool -> block"}
+      - {id: least-privilege-tools, type: preventive, implemented_by: "A02 allowlist инструментов, M06 политика ролей"}
+      - {id: guard-audit, type: detective, implemented_by: "F55 audit-событие с вердиктами гвардов в SIEM"}
+    tests: [F53, F55, A02, M06]
+
+  - id: LLM02
+    title: Sensitive Information Disclosure
+    severity: critical
+    owner: ai-platform
+    status: implemented
+    controls:
+      - {id: pii-masking, type: preventive, implemented_by: "F50/F51 маскирование до модели, демаскирование в ответе"}
+      - {id: audit-redaction, type: preventive, implemented_by: "S35 аудит без PII и секретов"}
+      - {id: dlp-alerts, type: detective, implemented_by: "F52 срабатывания block/local_only в SIEM"}
+    tests: [F50, F51, F52, S35]
+
+  - id: LLM03
+    title: Supply Chain
+    severity: high
+    owner: ml-platform
+    status: implemented
+    controls:
+      - {id: model-admission, type: preventive, implemented_by: "I58 допуск модели: лицензия, safetensors, скан, тикет ИБ"}
+      - {id: pinned-weights, type: preventive, implemented_by: "L44 pinned revision и sha256 весов"}
+      - {id: mcp-registry, type: preventive, implemented_by: "W65 только одобренные MCP-серверы по digest"}
+      - {id: image-scan, type: detective, implemented_by: "C11 Bandit и pip-audit в CI"}
+    tests: [I58, L44, W65, C11]
+
+  - id: LLM04
+    title: Data and Model Poisoning
+    severity: high
+    owner: ml-platform
+    status: implemented
+    controls:
+      - {id: ingest-provenance, type: preventive, implemented_by: "R23 hash и версия каждого чанка базы знаний"}
+      - {id: eval-gate, type: detective, implemented_by: "C37 регрессия evals блокирует релиз"}
+    tests: [R23, C37, I58]
+
+  - id: LLM05
+    title: Improper Output Handling
+    severity: high
+    owner: ai-platform
+    status: implemented
+    controls:
+      - {id: output-guard, type: preventive, implemented_by: "F53 scan_output: внешние картинки и ссылки"}
+      - {id: strict-tool-args, type: preventive, implemented_by: "A02 валидация аргументов до выполнения"}
+      - {id: output-audit, type: detective, implemented_by: "F55 вердикты выходных гвардов в аудите"}
+    tests: [F53, F55, A02]
+
+  - id: LLM06
+    title: Excessive Agency
+    severity: high
+    owner: ai-platform
+    status: implemented
+    controls:
+      - {id: hook-guard, type: preventive, implemented_by: "N30 PreToolUse запрещает destructive-команды"}
+      - {id: sandbox, type: preventive, implemented_by: "W64 sandbox без сети, root и docker.sock"}
+      - {id: step-budget, type: preventive, implemented_by: "A20 бюджет шагов агента"}
+      - {id: review-gate, type: detective, implemented_by: "N31 обязательное ревью MR агента"}
+    tests: [N30, W64, A20, N31]
+
+  - id: LLM07
+    title: System Prompt Leakage
+    severity: medium
+    owner: ai-platform
+    status: implemented
+    controls:
+      - {id: no-secrets-in-prompts, type: preventive, implemented_by: "секреты только в инструментах, S35 проверяет аудит"}
+      - {id: leak-detection, type: detective, implemented_by: "F53 hit leak в логах гварда"}
+    tests: [F53, S35]
+
+  - id: LLM08
+    title: Vector and Embedding Weaknesses
+    severity: medium
+    owner: ml-platform
+    status: implemented
+    controls:
+      - {id: tenant-filter, type: preventive, implemented_by: "фильтр tenant в каждом запросе к vector DB, R24/R25"}
+      - {id: retrieval-metrics, type: detective, implemented_by: "Recall@k и MRR на размеченном наборе"}
+    tests: [R24, R25]
+
+  - id: LLM09
+    title: Misinformation
+    severity: medium
+    owner: ml-platform
+    status: implemented
+    controls:
+      - {id: golden-evals, type: detective, implemented_by: "E26 golden dataset и E27 калиброванный judge"}
+      - {id: cite-sources, type: preventive, implemented_by: "R25 контекст с источниками"}
+    tests: [E26, E27, R25]
+
+  - id: LLM10
+    title: Unbounded Consumption
+    severity: high
+    owner: ai-platform
+    status: implemented
+    controls:
+      - {id: quotas, type: preventive, implemented_by: "L41 rpm и суточный бюджет токенов на команду"}
+      - {id: scoped-keys, type: preventive, implemented_by: "G46 ключи со сроком и scope по моделям"}
+      - {id: budget-alerts, type: detective, implemented_by: "W66 алерт 80% бюджета команды, G47 сверка счёта"}
+    tests: [L41, G46, G47, W66]
+
+  - id: KT01
+    title: Утечка коммерческой тайны во внешний контур
+    severity: critical
+    owner: ai-platform
+    status: implemented
+    controls:
+      - {id: kt-detector, type: preventive, implemented_by: "F52 классификатор КТ и секретов"}
+      - {id: local-routing, type: preventive, implemented_by: "I56 КТ и критичные репозитории только локально"}
+      - {id: egress-control, type: preventive, implemented_by: "G49 ACL прокси: агрегаторы только для шлюза"}
+      - {id: shadow-ai-detect, type: detective, implemented_by: "G49 поиск прямых подключений в логах прокси"}
+    tests: [F52, I56, G49]

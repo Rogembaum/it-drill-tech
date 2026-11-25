@@ -1,0 +1,35 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "corp": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Corporate LLM gateway",
+      "options": {
+        "baseURL": "https://llm-gateway.corp.local/v1",
+        "apiKey": "{env:LITELLM_API_KEY}"
+      },
+      "models": {
+        "qwen-coder-local": {"name": "Qwen2.5 Coder 32B (локально)"},
+        "deepseek-cloud": {"name": "DeepSeek V3.1 (облако, без КТ)"}
+      }
+    }
+  },
+  "enabled_providers": ["corp"],
+  "model": "corp/qwen-coder-local",
+  "small_model": "corp/qwen-coder-local",
+  "share": "disabled",
+  "autoupdate": false,
+  "permission": {
+    "edit": "ask",
+    "webfetch": "deny",
+    "bash": {
+      "*": "ask",
+      "git status": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "rm -rf*": "deny",
+      "git push*": "deny",
+      "curl*|*sh*": "deny"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "I59",
+  "domain": "14 inference",
+  "title": "Пробник стрима: TTFT, обрывы и зависания по сырому SSE",
+  "prereq": "L42",
+  "files": [
+    "probe.py"
+  ],
+  "goal": "Провайдеры без SLA: на старте ответы то обрываются на середине, то зависают, а OpenRouter шлёт комментарии-keepalive, которые наш замер считает первым токеном. Напиши синтетический пробник, который по сырым строкам SSE OpenAI-совместимого API считает TTFT и классифицирует исход каждого запроса, а по выборке — долю обрывов, ошибок и p95 TTFT.",
+  "evidence": "TTFT — первый чанк с непустым content или reasoning_content, комментарии и role-only дельты не считаются; исходы error > empty > dropped > stalled > ok; [DONE] или finish_reason — признак завершения; битый JSON и error-объект — error; aggregate даёт drop/error/stall rate и p50/p95 TTFT по nearest-rank."
+}
