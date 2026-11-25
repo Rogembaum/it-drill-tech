@@ -86,9 +86,9 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_KEY }}
       AWS_DEFAULT_REGION: ru-1
       AWS_ENDPOINT_URL: https://s3.ru-1.storage.selcloud.ru
-      # Цепочка Selectel ведёт к GlobalSign Root R6: его нет в хранилище aws-cli, но есть в системном.
+      # Selectel's chain ends at GlobalSign Root R6: missing from aws-cli's trust store, present in the system store.
       AWS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
-      # Selectel не принимает CRC-контрольные суммы, которые aws-cli 2.23+ шлёт по умолчанию.
+      # Selectel rejects the CRC checksums that aws-cli 2.23+ sends by default.
       AWS_REQUEST_CHECKSUM_CALCULATION: when_required
       AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
       BUCKET: it-drill-tech
@@ -99,6 +99,6 @@ jobs:
       - name: Build dist
         run: python3 tools/build-dist.py
 
-      # Имена файлов без хешей: no-cache заставляет браузер сверять ETag и сразу видеть новую версию.
+      # Filenames have no content hashes: no-cache makes the browser revalidate via ETag and pick up new versions immediately.
       - name: Upload to S3
         run: aws s3 sync dist/ "s3://$BUCKET/" --delete --no-progress --cache-control "no-cache"

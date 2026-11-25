@@ -1,0 +1,11 @@
+{
+  "id": "H69",
+  "domain": "16 agentarch",
+  "title": "GitLab API как инструменты агента: схемы, пагинация, response_format",
+  "prereq": "H68",
+  "files": [
+    "tools.py"
+  ],
+  "goal": "Наивный Projects Health Agent получил один инструмент «выполни любой запрос к GitLab» и тянет в контекст по 400 MR с описаниями. Спроектируй узкие read-only инструменты поверх GitLab REST: строгие JSON Schema, префикс gitlab_, список MR без описаний с пагинацией по x-next-page и потолком, один MR с head_pipeline и режимом concise/detailed, упавшие jobs без логов. Ошибки аргументов — понятный текст для repair loop.",
+  "evidence": "3–6 read-инструментов gitlab_* со схемами type object, required, additionalProperties false и разными описаниями; список: state=opened, per_page=100, страницы по x-next-page, не больше 200, флаг truncated, поля iid/title/updated_at/draft/detailed_merge_status; get_mr: head_pipeline, concise режет description до 1000; failed jobs: scope[]=failed без trace; неверные args — ValueError, неизвестный инструмент — PermissionError."
+}

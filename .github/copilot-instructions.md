@@ -1,14 +1,14 @@
 ## Git commits
-- В конце выполненной задачи запускай подходящие проверки и создавай коммит без дополнительного запроса.
-- Проверки берутся из `.github/workflows/ci.yml`:
-  - изменения в `app.js`, `index.html`, `data/`, `labs/`, `tools/`: `node tools/validate.mjs`;
-  - изменения в `terraform/`: `terraform fmt -check -recursive` и `terraform init -backend=false -input=false && terraform validate` в каталоге `terraform`.
-- Если проверка упала, не коммить: исправь причину или сообщи, что именно не проходит. Не обходи проверки через `--no-verify`.
-- Используй формат Conventional Commits: `<type>(<scope>): <краткое описание>`. Scope — затронутая часть репозитория, например `labs`, `data`, `terraform`, `ci`.
-- Используй `feat` для новой функциональности, `fix` для исправлений, `docs` для документации, `test` для тестов, `refactor` для рефакторинга, `ci` для пайплайнов, `chore` для служебных изменений.
-- Для несовместимого изменения используй `!`, например `feat!: ...`, и добавляй в тело коммита футер `BREAKING CHANGE: <что сломалось и как мигрировать>`.
-- Если задача связана с issue, добавляй футер `Refs #<номер>`.
-- Добавляй в коммит только файлы, изменённые для текущей задачи (`git add <путь>`), не `git add .` и не `git commit -a`. Не включай чужие или ранее существовавшие изменения.
-- Не коммить секреты, токены и `*.tfvars` с реальными значениями: CI проверяет историю через gitleaks.
-- Не переписывай существующие коммиты (`--amend`, `rebase`, `reset`) без отдельной просьбы.
-- Не отправляй коммиты в remote и не меняй версии или теги, если об этом отдельно не попросили.
+- At the end of a completed task, run the appropriate checks and create a commit without waiting for an extra request.
+- Checks come from `.github/workflows/ci.yml`:
+  - changes in `app.js`, `index.html`, `data/`, `labs/`, `tools/`: `node tools/validate.mjs`;
+  - changes in `terraform/`: `terraform fmt -check -recursive` and `terraform init -backend=false -input=false && terraform validate` in the `terraform` directory.
+- If a check fails, do not commit: fix the cause or report what fails. Do not bypass checks with `--no-verify`.
+- Use Conventional Commits: `<type>(<scope>): <short description>`. Scope is the affected part of the repo, e.g. `labs`, `data`, `terraform`, `ci`.
+- Use `feat` for new functionality, `fix` for bug fixes, `docs` for documentation, `test` for tests, `refactor` for refactoring, `ci` for pipelines, `chore` for housekeeping.
+- For a breaking change use `!`, e.g. `feat!: ...`, and add a commit-body footer `BREAKING CHANGE: <what broke and how to migrate>`.
+- If the task relates to an issue, add a footer `Refs #<number>`.
+- Stage only files changed for the current task (`git add <path>`), not `git add .` and not `git commit -a`. Do not include unrelated or pre-existing changes.
+- Do not commit secrets, tokens, or `*.tfvars` with real values: CI scans history with gitleaks.
+- Do not rewrite existing commits (`--amend`, `rebase`, `reset`) unless explicitly asked.
+- Do not push commits to the remote or change versions/tags unless explicitly asked.

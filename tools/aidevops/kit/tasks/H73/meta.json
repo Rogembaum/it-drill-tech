@@ -1,0 +1,11 @@
+{
+  "id": "H73",
+  "domain": "16 agentarch",
+  "title": "Evals и трассировка агента: grader, pass@k и pass^k, spans",
+  "prereq": "H72",
+  "files": [
+    "evals.py"
+  ],
+  "goal": "Агент «вроде работает»: в демо отчёт правильный, в cron каждый третий прогон пропускает упавший pipeline, а разобрать почему нельзя — нет трейса. Собери минимальный eval-контур: grader по исходу и транскрипту, оценки pass@k и pass^k по нескольким попыткам, сводка по набору задач и трассировщик со span-иерархией, статусом ошибок и маскированием секретов.",
+  "evidence": "pass_at_k — несмещённая оценка 1 - C(n-c,k)/C(n,k), pass_hat_k = C(c,k)/C(n,k); grade: status, missing, unexpected, forbidden tool, deep_read вне разрешённых, too_many_steps, причины отсортированы; suite: среднее по задачам, при 3 из 4 pass@3 = 1.0 и pass^3 = 0.25; Tracer: один trace_id, parent_id, duration, error у span и родителя, исключение пробрасывается, атрибуты с token/secret/password замаскированы."
+}

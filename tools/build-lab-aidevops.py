@@ -8,7 +8,7 @@
 Поверх исходников применяется tools/aidevops/:
   content.json — правки и дополнения модулей, заметок к задачам, вопросов,
                  чек-листов и сертификаций
-  kit/         — файлы, добавленные в стенд (задачи L41–L44, G45–W67 и их проверки)
+  kit/         — файлы, добавленные в стенд (задачи L41–L44, G45–W67, H68–H74 и их проверки)
   KIT_PATCHES  — точечные исправления исходных файлов стенда (ниже); если
                  исходник изменился и фрагмент не найден, сборка падает
 
@@ -36,6 +36,7 @@ DOMAIN_MODULE = {
     "06 capstone": "capstone", "07 rag": "rag", "08 evals": "evals", "09 ainative": "native",
     "10 automation": "automation", "11 models": "models",
     "12 gateway": "gateway", "13 aisec": "aisec", "14 inference": "inference", "15 platform": "platform",
+    "16 agentarch": "agentarch",
 }
 CAPSTONE = {"id": "capstone", "num": "—", "icon": "◇", "title": "Итоговый проект",
             "short": "Portfolio · Case study", "desc": "Связать все направления в проверяемый проект.",
@@ -59,15 +60,19 @@ KIT_PATCHES = [
      "        elif tid in __import__('platform_checks').NEW_IDS:\n"
      "            from platform_checks import platform_checker\n"
      "            return platform_checker(tid,r,W,ROOT)\n"
+     "        elif tid in __import__('agentarch_checks').NEW_IDS:\n"
+     "            from agentarch_checks import agentarch_checker\n"
+     "            return agentarch_checker(tid,r,W,ROOT)\n"
      "        elif tid in __import__('extra_checks').NEW_IDS:\n"),
     ("lab/labctl.py",
      "'10 automation':'Telegram / n8n / API'}",
      "'10 automation':'Telegram / n8n / API',\n         '11 models':'ModelOps и LLM serving',\n"
      "         '12 gateway':'LLM-шлюзы и биллинг','13 aisec':'AI Security и AI firewall',\n"
-     "         '14 inference':'Безопасный инференс и модели','15 platform':'AI-платформа разработки'}"),
+     "         '14 inference':'Безопасный инференс и модели','15 platform':'AI-платформа разработки',\n"
+     "         '16 agentarch':'Архитектура AI-агентов'}"),
     ("lab/labctl.py",
      "вывести задачи (01 agent|02 tools|03 k8s|04 cicd|05 secure)",
-     "вывести задачи (01 agent … 15 platform, см. README)"),
+     "вывести задачи (01 agent … 16 agentarch, см. README)"),
     ("lab/labctl.py",
      "./ai-lab exam                5 случайных практических задач",
      "./ai-lab exam                по одной случайной задаче из каждого направления"),
@@ -86,7 +91,7 @@ KIT_PATCHES = [
      "    - pip install -r requirements.txt\n    - python -m pytest -q tests/evals/\n"),
     ("README.md",
      "**40 сценариев по 10 тематическим направлениям**",
-     "**67 сценариев по 15 тематическим направлениям**"),
+     "**74 сценария по 16 тематическим направлениям**"),
     ("README.md",
      "| P17, P38 | Capstone/portfolio | Верифицируемый case study |",
      "| P17, P38 | Capstone/portfolio | Верифицируемый case study |\n"
@@ -94,10 +99,11 @@ KIT_PATCHES = [
      "| G45–G49 | LiteLLM, виртуальные ключи, биллинг по токенам, OpenRouter, shadow AI | Внутренний шлюз и учёт расходов |\n"
      "| F50–F55 | PII-маскирование, стрим, КТ, prompt injection, перечень угроз, AI firewall | AI Security вместе с ИБ |\n"
      "| I56–I61 | Локально/облако, vLLM, допуск модели, TTFT и обрывы, pass@k, WER | Безопасный инференс и выбор моделей |\n"
-     "| W62–W67 | OpenWebUI, opencode, sandbox, MCP registry, Prometheus, карантин | Платформа для разработчиков |"),
+     "| W62–W67 | OpenWebUI, opencode, sandbox, MCP registry, Prometheus, карантин | Платформа для разработчиков |\n"
+     "| H68–H74 | Агент или workflow, инструменты GitLab, цикл и repair, state, guardrails, evals, мультиагентность | Projects Health Agent |"),
     ("README.md",
      "# 9 задач — по одной из 9 практических направлений",
-     "# 14 задач — по одной из 14 практических направлений"),
+     "# 15 задач — по одной из 15 практических направлений"),
 ]
 STD_SECTIONS = {"Сценарий", "Требования к результату"}
 

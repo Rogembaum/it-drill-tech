@@ -1,0 +1,11 @@
+{
+  "id": "H68",
+  "domain": "16 agentarch",
+  "title": "Агент или workflow: decision framework и аудит антипаттернов",
+  "prereq": "A01",
+  "files": [
+    "decision.py"
+  ],
+  "goal": "Команда хочет «сделать агента» для каждого регламента: релиз, ротация секретов, отчёт о здоровье проектов GitLab. Напиши формальный decision framework: по свойствам задачи выбрать чат, pipeline, workflow или агента, для агента — ReAct или Plan→Execute и нужен ли человек в контуре. Вторая функция — аудит дизайна агента на типовые антипаттерны до того, как его начнут строить.",
+  "evidence": "classify: нет действий в среде — chat; маршрут известен — pipeline или workflow (с ветвлениями) без паттерна цикла; маршрут зависит от наблюдений — agent, plan_execute при перечислимых шагах, иначе react; запись или высокая цена ошибки — hitl. audit: agent_for_known_route, no_step_budget, shell_tool, too_many_tools (>12), overlapping_tools, write_without_hitl, policy_only_in_prompt."
+}

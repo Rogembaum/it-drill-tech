@@ -130,7 +130,7 @@ function vHome(){
   + '<section class="lx-card lx-hero">'
   +   '<div class="eyebrow">AI DevOps Academy · v2</div>'
   +   '<h2 class="lx-h2">AI DevOps: агенты, MCP, RAG, evals, LLM serving</h2>'
-  +   '<p>Практический курс для DevOps и SRE, которые эксплуатируют AI-сервисы. '+TASKS.length+' задач со стартовыми файлами и автопроверкой <code>./ai-lab check</code>: сервис агента и tool calling, MCP, Kubernetes, CI-гейты, безопасность, RAG, evals, AI-native инструменты, автоматизация и ModelOps. Всё работает на CPU и kind, без GPU и платных API. К задачам — '+LABS.length+' практикумов с чек-листами, '+QUIZ.length+' вопросов на понимание и сертификации.</p>'
+  +   '<p>Практический курс для DevOps и SRE, которые эксплуатируют AI-сервисы. '+TASKS.length+' задач со стартовыми файлами и автопроверкой <code>./ai-lab check</code>: сервис агента и tool calling, MCP, Kubernetes, CI-гейты, безопасность, RAG, evals, AI-native инструменты, автоматизация и ModelOps. Всё работает на CPU и kind, без GPU и платных API. Отдельное направление — архитектура агентов: цикл вместо чата, ReAct и Plan→Execute, контекст, память, остановка и координация на примере Projects Health Agent. К задачам — '+LABS.length+' практикумов с чек-листами, '+QUIZ.length+' вопросов на понимание и сертификации.</p>'
   +   '<div class="lx-row">'
   +     (next ? '<button class="btn lx-primary" data-open="'+next.id+'">Продолжить: '+next.id+'</button>' : '')
   +     '<a class="btn" href="'+KIT+'" download>Скачать ai-devops-labs.zip</a>'
@@ -140,7 +140,7 @@ function vHome(){
   + '<div class="lx-facts">'
   +   [[String(TASKS.length),"задач с автопроверкой PASS / FAIL / SKIP"],[String(MODS.length - 1),"направлений, плюс итоговый проект"],
        ["CPU","kind, Ollama и mock-режим, GPU не нужен"],[String(QUIZ.length),"вопросов, варианты перемешиваются"],
-       [String(nNew),"новых материалов на сайте: шлюзы, AI Security, инференс, платформа и др."],[okAll+"/"+TASKS.length,"задач решено у вас"]]
+       [String(nNew),"новых материалов на сайте: шлюзы, AI Security, инференс, платформа, архитектура агентов"],[okAll+"/"+TASKS.length,"задач решено у вас"]]
       .map(function(f){ return '<div class="lx-fact"><b>'+f[0]+'</b><span>'+f[1]+'</span></div>'; }).join("")
   + '</div>'
   + '<section class="lx-card">'
@@ -174,10 +174,11 @@ function vHome(){
   +     '<ul class="lx-list">'
   +       '<li>Каждая задача прогнана дважды: эталон проходит офлайн-проверки, стартовые файлы их не проходят.</li>'
   +       '<li>SKIP — проверка не проводилась (нужен GitLab, n8n, Postgres, MCP SDK или живой кластер). Это не «сдано»: подтвердите вручную.</li>'
-  +       '<li>Live-проверки K07–K09, S13 и L43 требуют применённых манифестов в <code>kind-ai-labs</code>, а для L43 — ещё KEDA и Prometheus. В G45–W67 живая часть (LiteLLM, OpenWebUI, vLLM на GPU, карантин в kind) отмечена SKIP и описана в практикумах.</li>'
+  +       '<li>Live-проверки K07–K09, S13 и L43 требуют применённых манифестов в <code>kind-ai-labs</code>, а для L43 — ещё KEDA и Prometheus. В G45–W67 и H69 живая часть (LiteLLM, OpenWebUI, vLLM на GPU, карантин в kind, реальный GitLab) отмечена SKIP и описана в практикумах.</li>'
   +       '<li>Исправлено в архиве: CI задачи C37 (зависимости и импорт), чтение UTF-8 в тестах на Windows, <code>pytest.ini</code> для запуска из корня, справка и экзамен <code>./ai-lab</code>.</li>'
   +       '<li>Добавлено: направление ModelOps — задачи L41–L44, вопросы, переписанные практикумы по RAG, evals, AI-native и автоматизации.</li>'
   +       '<li>Добавлено: LLM-шлюзы и биллинг (G45–G49), AI Security и AI firewall (F50–F55), безопасный инференс и выбор моделей (I56–I61), AI-платформа разработки (W62–W67) и 17 практикумов от первого запуска до прода.</li>'
+  +       '<li>Добавлено: архитектура AI-агентов на примере Projects Health Agent для GitLab (H68–H74) — decision framework, инструменты, цикл и repair, состояние, надёжность, evals, мультиагентность.</li>'
   +       '<li>В вопросах правильный ответ чаще стоял вторым; здесь варианты перемешиваются.</li>'
   +     '</ul>'
   +   '</section>'
